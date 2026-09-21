@@ -1,0 +1,6 @@
+{
+  "name": "Inerim — Architectural Interior Design Studio",
+  "description": "Modern, minimalist interior design studio specializing in luxury residential and high-performance commercial spaces with 45-day delivery and transparent cost estimation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
