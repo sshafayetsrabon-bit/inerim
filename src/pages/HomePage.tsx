@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { PageId, Project, Testimonial } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { PROJECTS_DATA } from '../data/projectsData';
@@ -24,8 +25,223 @@ import {
   PhoneCall,
   FileCheck,
   Cpu,
-  AlertTriangle
+  AlertTriangle,
+  Info,
+  ChevronDown
 } from 'lucide-react';
+
+interface PillarData {
+  id: string;
+  number: string;
+  title: string;
+  metric: string;
+  icon: any;
+  traditional: string;
+  inerim: string;
+  tag: string;
+  clause: string;
+  techSpec: string;
+}
+
+interface ContradictionCardProps {
+  pillar: PillarData;
+  isDark: boolean;
+  filterMode: 'all' | 'inerim' | 'traditional';
+  isExpanded: boolean;
+  onToggleExpand: () => void;
+  onSpaceAudit: () => void;
+}
+
+const ContradictionCard: React.FC<ContradictionCardProps> = ({
+  pillar: p,
+  isDark,
+  filterMode,
+  isExpanded,
+  onToggleExpand,
+  onSpaceAudit
+}) => {
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
+  const Icon = p.icon;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos(null);
+  };
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      whileHover={{ y: -5, transition: { type: 'spring', stiffness: 350, damping: 25 } }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`relative p-5 sm:p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between group overflow-hidden ${
+        isExpanded
+          ? isDark
+            ? 'border-[#087973] ring-1 ring-[#087973]/40 bg-white/[0.04]'
+            : 'border-[#087973] ring-1 ring-[#087973]/30 bg-white shadow-lg'
+          : isDark
+            ? 'bg-white/[0.02] border-white/10 hover:border-[#087973]/70'
+            : 'bg-white border-black/10 hover:border-[#087973]/70 hover:shadow-md'
+      }`}
+    >
+      {/* Dynamic Mouse Spotlight Glow */}
+      {mousePos && (
+        <div
+          className="pointer-events-none absolute -inset-px rounded-2xl transition-opacity duration-200"
+          style={{
+            background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, ${
+              isDark ? 'rgba(8, 121, 115, 0.18)' : 'rgba(8, 121, 115, 0.12)'
+            }, transparent 80%)`
+          }}
+        />
+      )}
+
+      <div>
+        {/* Header: Icon, Number, Title & Metric */}
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex items-center gap-3">
+            <motion.div
+              whileHover={{ rotate: 12, scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              className="w-10 h-10 rounded-xl bg-[#087973]/10 border border-[#087973]/20 flex items-center justify-center text-[#087973] group-hover:bg-[#087973] group-hover:text-white transition-all shadow-sm"
+            >
+              <Icon className="w-5 h-5" />
+            </motion.div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[11px] font-mono font-bold ${isDark ? 'text-white/40' : 'text-black/40'}`}>
+                  {p.number}
+                </span>
+                <span className="text-[10px] uppercase font-bold text-[#087973] tracking-wider">
+                  {p.metric}
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold font-serif tracking-tight">
+                {p.title}
+              </h3>
+            </div>
+          </div>
+
+          <button
+            onClick={onToggleExpand}
+            className={`text-[10px] uppercase font-mono tracking-wider px-2.5 py-1 rounded-md border transition-colors flex items-center gap-1 cursor-pointer ${
+              isExpanded
+                ? 'bg-[#087973] text-white border-[#087973]'
+                : isDark
+                  ? 'border-white/10 hover:border-white/30 text-white/60 hover:text-white'
+                  : 'border-black/10 hover:border-black/30 text-black/60 hover:text-black'
+            }`}
+            title="Inspect contractual SLA clause"
+          >
+            <span>{isExpanded ? 'Clause Details' : 'Verify SLA'}</span>
+            <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+
+        {/* The Contradiction Box with Interactive Filter States */}
+        <div className={`rounded-xl p-3.5 space-y-2.5 border transition-all ${
+          isDark ? 'bg-black/60 border-white/5' : 'bg-neutral-50 border-black/5'
+        }`}>
+          {/* Traditional Flaw */}
+          <motion.div
+            animate={{
+              opacity: filterMode === 'inerim' ? 0.35 : 1,
+              scale: filterMode === 'traditional' ? 1.01 : 1
+            }}
+            transition={{ duration: 0.2 }}
+            className={`flex items-start gap-2.5 text-xs p-1 rounded-lg transition-colors ${
+              filterMode === 'traditional' ? (isDark ? 'bg-red-950/30 ring-1 ring-red-500/30' : 'bg-red-50 ring-1 ring-red-300') : ''
+            }`}
+          >
+            <span className="text-red-500 font-bold flex-shrink-0 text-sm leading-none mt-0.5">✕</span>
+            <div className="leading-relaxed">
+              <span className="font-semibold text-red-500/90 mr-1.5 uppercase text-[10px] tracking-wider">Traditional:</span>
+              <span className={isDark ? 'text-white/60' : 'text-black/60'}>{p.traditional}</span>
+            </div>
+          </motion.div>
+
+          {/* Inerim Standard */}
+          <motion.div
+            animate={{
+              opacity: filterMode === 'traditional' ? 0.45 : 1,
+              scale: filterMode === 'inerim' ? 1.01 : 1
+            }}
+            transition={{ duration: 0.2 }}
+            className={`flex items-start gap-2.5 text-xs pt-2.5 border-t p-1 rounded-lg transition-colors ${
+              isDark ? 'border-white/10' : 'border-black/5'
+            } ${filterMode === 'inerim' ? (isDark ? 'bg-[#087973]/15 ring-1 ring-[#087973]/40' : 'bg-[#087973]/10 ring-1 ring-[#087973]/30') : ''}`}
+          >
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#087973] flex-shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              <span className="font-semibold text-[#087973] mr-1.5 uppercase text-[10px] tracking-wider">Inerim Standard:</span>
+              <span className={`font-medium ${isDark ? 'text-white/90' : 'text-black/90'}`}>{p.inerim}</span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Expandable Contract Clause Accordion */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="overflow-hidden mt-3"
+            >
+              <div className={`p-3.5 rounded-xl border text-xs space-y-2 ${
+                isDark ? 'bg-[#087973]/10 border-[#087973]/30 text-white/90' : 'bg-[#087973]/5 border-[#087973]/20 text-black/90'
+              }`}>
+                <div className="flex items-center gap-1.5 text-[#087973] font-bold uppercase text-[10px] tracking-wider">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Enforceable Legal Clause</span>
+                </div>
+                <p className="leading-relaxed text-[11px] font-mono">
+                  {p.clause}
+                </p>
+                <div className="pt-1.5 border-t border-[#087973]/20 text-[10px] text-[#087973] flex items-center justify-between font-mono">
+                  <span>{p.techSpec}</span>
+                  <button
+                    onClick={onSpaceAudit}
+                    className="underline hover:text-[#06615c] font-sans font-bold cursor-pointer"
+                  >
+                    Include in Audit →
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Card Bottom Proof Tag */}
+      <div className={`mt-4 pt-3 border-t flex items-center justify-between text-[11px] ${
+        isDark ? 'border-white/10 text-white/40' : 'border-black/5 text-black/40'
+      }`}>
+        <span className="flex items-center gap-1.5 font-medium text-[#087973]">
+          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+          <span>{p.tag}</span>
+        </span>
+        <button
+          onClick={onToggleExpand}
+          className="font-mono text-[10px] uppercase hover:text-[#087973] cursor-pointer transition-colors"
+        >
+          {isExpanded ? 'Hide Protocol' : 'Inspect Protocol'}
+        </button>
+      </div>
+    </motion.div>
+  );
+};
 
 interface HomePageProps {
   setCurrentPage: (page: PageId) => void;
@@ -47,6 +263,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [officeSlide, setOfficeSlide] = useState(0);
   const [heroSlide, setHeroSlide] = useState(0);
 
+  // Interactive modes for Section 4 (Built on Contractual Precision)
+  const [filterMode, setFilterMode] = useState<'all' | 'inerim' | 'traditional'>('all');
+  const [expandedPillarId, setExpandedPillarId] = useState<string | null>(null);
+
   const architecturalPillars = [
     {
       id: '45-day-handover',
@@ -56,7 +276,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: Clock,
       traditional: '6 to 12 month unpredictable delays with zero contractor accountability.',
       inerim: 'Contractually locked 45-day key handover or ৳5,000/day penalty paid to you.',
-      tag: 'Legally Enforceable SLA'
+      tag: 'Legally Enforceable SLA',
+      clause: 'Clause 4.2 Inerim Master Agreement: Handover date is locked at deposit. If handover exceeds 45 working days, Inerim pays ৳5,000 per delayed day as a direct credit on the final invoice.',
+      techSpec: 'Weekly critical-path Gantt tracking with real-time photographic milestone updates.'
     },
     {
       id: 'locked-boq',
@@ -66,7 +288,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: FileCheck,
       traditional: 'Vague lump-sum ballpark estimates that inflate by 30–50% midway through execution.',
       inerim: 'Itemized Bill of Quantities locked before commencement. Zero surprise revisions.',
-      tag: 'Zero Revision Surcharges'
+      tag: 'Zero Revision Surcharges',
+      clause: 'Clause 2.1 Fixed Commercial BOQ: Every fastener, board thickness, and finishing grade is priced line-by-line. Inerim absorbs all contractor-side cost overruns.',
+      techSpec: 'Locked CAD-verified cut-lists and material specs provided with deposit.'
     },
     {
       id: 'german-cnc',
@@ -76,7 +300,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: Cpu,
       traditional: 'Carpenters sawing inside your home; toxic sawdust and chemical glue in AC ducts.',
       inerim: '80% pre-milled in automated German CNC facilities; clean 7-day silent on-site fit.',
-      tag: 'Dustless Architectural Fit'
+      tag: 'Dustless Architectural Fit',
+      clause: 'Manufacturing Protocol DIN-68874: All cabinetry pre-milled with Homag edge-banding and PUR hot-melt adhesives before residential site entry.',
+      techSpec: '99.2% zero-dust on-site installation with rapid modular cam-lock assembly.'
     },
     {
       id: 'flat-2yr-warranty',
@@ -86,7 +312,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: ShieldCheck,
       traditional: 'Contractors vanish once the final payment clears; zero help for warped doors or hinges.',
       inerim: 'Formal written 2-year warranty certificate covering Blum hardware with 48h rapid response.',
-      tag: 'Blum & Hettich Full Coverage'
+      tag: 'Blum & Hettich Full Coverage',
+      clause: 'Institutional Warranty SLA: Direct parts replacement on all Blum hinges, runners, and hydraulic lift mechanisms. Emergency tech dispatched within 48 hours.',
+      techSpec: 'Includes biannual architectural tune-up and hardware alignment audits.'
     }
   ];
 
@@ -136,9 +364,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   ];
 
   return (
-    <div className="space-y-16 sm:space-y-24">
+    <div className="flex flex-col">
       {/* 1. HERO SECTION (Minimal height of 80vh across all slides) */}
-      <section className="relative w-full overflow-hidden bg-black min-h-[80vh] flex items-center">
+      <section className="relative w-full overflow-hidden bg-black min-h-[80vh] flex items-center mb-12 sm:mb-16">
         {/* Background image slider - each slide strictly 80vh minimum */}
         {heroSlides.map((slide, idx) => (
           <div
@@ -389,9 +617,15 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {WORKFLOW_STEPS.map((step) => (
-              <div
+            {WORKFLOW_STEPS.map((step, idx) => (
+              <motion.div
                 key={step.stepNumber}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.35, delay: idx * 0.08 }}
+                whileHover={{ y: -8, scale: 1.02, transition: { type: 'spring', stiffness: 350, damping: 25 } }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setCurrentPage('how-we-work')}
                 className={`rounded-xl p-4.5 border transition-all flex flex-col justify-between group cursor-pointer ${
                   isDark
@@ -406,7 +640,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     }`}
                   >
                     <div className="text-center">
-                      <div className="w-9 h-9 mx-auto rounded-lg bg-[#087973] text-white flex items-center justify-center font-bold mb-1 shadow-sm">
+                      <div className="w-9 h-9 mx-auto rounded-lg bg-[#087973] text-white flex items-center justify-center font-bold mb-1 shadow-sm group-hover:scale-110 transition-transform">
                         <span className="font-serif text-sm">{step.stepNumber}</span>
                       </div>
                       <span className="text-[10px] font-semibold uppercase tracking-wider text-[#087973] block">
@@ -415,7 +649,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-sm mb-1">{step.title}</h3>
+                  <h3 className="font-bold text-sm mb-1 group-hover:text-[#087973] transition-colors">{step.title}</h3>
                   <p className={`text-xs leading-relaxed line-clamp-3 ${isDark ? 'text-white/60' : 'text-black/60'}`}>
                     {step.description}
                   </p>
@@ -423,41 +657,43 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <div className={`mt-4 pt-3 border-t flex items-center justify-between ${isDark ? 'border-white/10' : 'border-black/10'}`}>
                   <span className="text-xs font-semibold text-[#087973] group-hover:underline">Explore Step</span>
-                  <div className="w-5 h-5 rounded-full bg-[#087973] text-white text-[10px] font-bold flex items-center justify-center">
+                  <div className="w-5 h-5 rounded-full bg-[#087973] text-white text-[10px] font-bold flex items-center justify-center group-hover:rotate-45 transition-transform">
                     {step.stepNumber}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           <div className="text-center mt-8">
             <button
               onClick={() => setCurrentPage('how-we-work')}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#087973] hover:underline cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#087973] hover:underline cursor-pointer group"
             >
               <span>View Full 45-Day Handover Breakdown & Inspection Checkpoints</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 0° Horizontal Marquee Ribbon 1 - Seamless Flush Connection */}
-      <div className="w-full bg-[#087973] text-white border-y border-[#087973]/30 overflow-hidden select-none z-10 group cursor-default">
+      {/* 0° Horizontal Marquee Ribbon 1 - Flush with 0 Gap */}
+      <div className="w-full bg-[#087973] text-white border-y border-[#087973]/30 overflow-hidden select-none z-10 group cursor-default m-0">
         <div className="py-2.5 sm:py-3 animate-fade-in-marquee">
           <div className="animate-marquee-rtl flex items-center gap-6 whitespace-nowrap text-xs sm:text-sm font-mono font-bold tracking-widest uppercase">
             {[0, 1, 2].map((copyIdx) => (
               <div key={copyIdx} className="flex items-center gap-6 flex-shrink-0">
                 {marqueePillars.map((item, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
-                    className="group/item inline-flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-200"
+                    whileHover={{ scale: 1.08, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group/item inline-flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer hover:bg-white/20 active:scale-95 transition-all duration-200"
                     title={`Inerim Standard: ${item}`}
                   >
                     <span className="text-white/90 group-hover/item:text-white transition-colors">{item}</span>
                     <span className="text-white/40 group-hover/item:text-white group-hover/item:rotate-90 group-hover/item:scale-125 transition-all duration-300">✦</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             ))}
@@ -465,114 +701,127 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 4. WHY CHOOSE INERIM (Contractual Precision vs Contractor Promises) */}
+      {/* 4. WHY CHOOSE INERIM (Contractual Precision vs Contractor Promises) - Flush with 0 Gap */}
       <section
         id="why-choose-inerim-section"
-        className={`py-12 sm:py-16 transition-colors relative overflow-hidden ${
+        className={`py-12 sm:py-16 transition-colors relative overflow-hidden m-0 ${
           isDark ? 'bg-black text-white' : 'bg-[#FAFAFA] text-black'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header - Simplified & Clear */}
-          <div className="max-w-3xl mb-8 sm:mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest text-[#087973] border border-[#087973]/30 bg-[#087973]/10 mb-3">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Architectural Discipline</span>
+          {/* Header & Perspective Filter Controls */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 sm:mb-10">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest text-[#087973] border border-[#087973]/30 bg-[#087973]/10 mb-3">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Architectural Discipline</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-serif tracking-tight leading-tight">
+                Built On Contractual Precision, <br className="hidden sm:inline" />
+                <span className="text-[#087973]">Not Contractor Promises</span>
+              </h2>
+              <p className={`text-xs sm:text-sm mt-2 leading-relaxed ${isDark ? 'text-white/70' : 'text-black/70'}`}>
+                The traditional renovation industry is plagued by vague quotes, endless delays, and toxic sawdust. We engineered a contractual framework that protects your time, capital, and peace of mind.
+              </p>
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-serif tracking-tight leading-tight">
-              Built On Contractual Precision, <br className="hidden sm:inline" />
-              <span className="text-[#087973]">Not Contractor Promises</span>
-            </h2>
-            <p className={`text-xs sm:text-sm mt-2 leading-relaxed ${isDark ? 'text-white/70' : 'text-black/70'}`}>
-              The traditional renovation industry is plagued by vague quotes, endless delays, and toxic sawdust. We engineered a contractual framework that protects your time, capital, and peace of mind.
-            </p>
+
+            {/* Interactive Perspective Filter Mode Pills */}
+            <div className="flex items-center p-1 rounded-xl border bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 self-start lg:self-end">
+              <button
+                onClick={() => setFilterMode('all')}
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filterMode === 'all'
+                    ? 'text-white font-semibold'
+                    : isDark ? 'text-white/60 hover:text-white' : 'text-black/60 hover:text-black'
+                }`}
+              >
+                {filterMode === 'all' && (
+                  <motion.div
+                    layoutId="filterIndicator"
+                    className="absolute inset-0 bg-[#087973] rounded-lg shadow-sm"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">All Contrasts</span>
+              </button>
+
+              <button
+                onClick={() => setFilterMode('inerim')}
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filterMode === 'inerim'
+                    ? 'text-white font-semibold'
+                    : isDark ? 'text-white/60 hover:text-white' : 'text-black/60 hover:text-black'
+                }`}
+              >
+                {filterMode === 'inerim' && (
+                  <motion.div
+                    layoutId="filterIndicator"
+                    className="absolute inset-0 bg-[#087973] rounded-lg shadow-sm"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3 h-3 text-teal-300" />
+                  <span>Inerim Standards</span>
+                </span>
+              </button>
+
+              <button
+                onClick={() => setFilterMode('traditional')}
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filterMode === 'traditional'
+                    ? 'text-white font-semibold'
+                    : isDark ? 'text-white/60 hover:text-white' : 'text-black/60 hover:text-black'
+                }`}
+              >
+                {filterMode === 'traditional' && (
+                  <motion.div
+                    layoutId="filterIndicator"
+                    className="absolute inset-0 bg-red-600 rounded-lg shadow-sm"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <AlertTriangle className="w-3 h-3 text-red-200" />
+                  <span>Traditional Flaws</span>
+                </span>
+              </button>
+            </div>
           </div>
 
-          {/* 4 Contradiction Cards Grid - Ease, Clarity, Immediate Impact */}
+          {/* 4 Interactive Contradiction Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-            {architecturalPillars.map((p) => {
-              const Icon = p.icon;
-              return (
-                <div
-                  key={p.id}
-                  className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between group hover:border-[#087973] ${
-                    isDark
-                      ? 'bg-white/[0.02] border-white/10 hover:bg-white/[0.04]'
-                      : 'bg-white border-black/10 hover:shadow-sm'
-                  }`}
-                >
-                  <div>
-                    {/* Header: Icon, Number, Title & Metric */}
-                    <div className="flex items-start justify-between gap-3 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#087973]/10 border border-[#087973]/20 flex items-center justify-center text-[#087973] group-hover:bg-[#087973] group-hover:text-white transition-all">
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className={`text-[11px] font-mono font-bold ${isDark ? 'text-white/40' : 'text-black/40'}`}>
-                              {p.number}
-                            </span>
-                            <span className="text-[10px] uppercase font-bold text-[#087973] tracking-wider">
-                              {p.metric}
-                            </span>
-                          </div>
-                          <h3 className="text-base sm:text-lg font-bold font-serif tracking-tight">
-                            {p.title}
-                          </h3>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* The Contradiction Box */}
-                    <div className={`rounded-xl p-3.5 space-y-2.5 border ${
-                      isDark ? 'bg-black/60 border-white/5' : 'bg-neutral-50 border-black/5'
-                    }`}>
-                      {/* Traditional Flaw */}
-                      <div className="flex items-start gap-2.5 text-xs">
-                        <span className="text-red-500 font-bold flex-shrink-0 text-sm leading-none mt-0.5">✕</span>
-                        <div className="leading-relaxed">
-                          <span className="font-semibold text-red-500/90 mr-1.5 uppercase text-[10px] tracking-wider">Traditional:</span>
-                          <span className={isDark ? 'text-white/60' : 'text-black/60'}>{p.traditional}</span>
-                        </div>
-                      </div>
-
-                      {/* Inerim Standard */}
-                      <div className={`flex items-start gap-2.5 text-xs pt-2.5 border-t ${
-                        isDark ? 'border-white/10' : 'border-black/5'
-                      }`}>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#087973] flex-shrink-0 mt-0.5" />
-                        <div className="leading-relaxed">
-                          <span className="font-semibold text-[#087973] mr-1.5 uppercase text-[10px] tracking-wider">Inerim Standard:</span>
-                          <span className={`font-medium ${isDark ? 'text-white/90' : 'text-black/90'}`}>{p.inerim}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Bottom Proof Tag */}
-                  <div className={`mt-4 pt-3 border-t flex items-center justify-between text-[11px] ${
-                    isDark ? 'border-white/10 text-white/40' : 'border-black/5 text-black/40'
-                  }`}>
-                    <span className="flex items-center gap-1.5 font-medium text-[#087973]">
-                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                      <span>{p.tag}</span>
-                    </span>
-                    <span className="font-mono text-[10px] uppercase">Enforceable Protocol</span>
-                  </div>
-                </div>
-              );
-            })}
+            {architecturalPillars.map((p) => (
+              <ContradictionCard
+                key={p.id}
+                pillar={p}
+                isDark={isDark}
+                filterMode={filterMode}
+                isExpanded={expandedPillarId === p.id}
+                onToggleExpand={() => setExpandedPillarId(expandedPillarId === p.id ? null : p.id)}
+                onSpaceAudit={() => setCurrentPage('contact')}
+              />
+            ))}
           </div>
 
           {/* Simple, Breathing Quality & Action Bar */}
-          <div className={`mt-8 sm:mt-10 p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${
-            isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white border-black/10 shadow-sm'
-          }`}>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className={`mt-8 sm:mt-10 p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${
+              isDark ? 'bg-white/[0.02] border-white/10' : 'bg-white border-black/10 shadow-sm'
+            }`}
+          >
             <div className="flex items-center gap-3.5 text-left">
-              <div className="w-10 h-10 rounded-full bg-[#087973]/10 border border-[#087973]/30 flex items-center justify-center text-[#087973] flex-shrink-0">
+              <motion.div
+                animate={{ scale: [1, 1.06, 1] }}
+                transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+                className="w-10 h-10 rounded-full bg-[#087973]/10 border border-[#087973]/30 flex items-center justify-center text-[#087973] flex-shrink-0"
+              >
                 <Award className="w-5 h-5" />
-              </div>
+              </motion.div>
               <div>
                 <div className="text-xs sm:text-sm font-bold font-serif">146-Point Senior Architect Inspection Checkpoints</div>
                 <div className={`text-[11px] ${isDark ? 'text-white/60' : 'text-black/60'}`}>
@@ -582,16 +831,20 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             <div className="flex items-center gap-2.5 flex-shrink-0 w-full sm:w-auto">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 id="why-choose-book-consultation-btn"
                 onClick={() => setCurrentPage('contact')}
                 className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-[#087973] hover:bg-[#06615c] active:scale-[0.98] text-white font-medium text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer inline-flex items-center justify-center gap-1.5"
               >
                 <span>Book Free Space Audit</span>
                 <ChevronRight className="w-3.5 h-3.5" />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={onOpenCalculator}
                 className={`flex-1 sm:flex-none px-4 py-2.5 rounded-lg border text-xs font-medium uppercase tracking-wider transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 ${
                   isDark
@@ -601,14 +854,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               >
                 <Calculator className="w-3.5 h-3.5 text-[#087973]" />
                 <span>Instant Budget Calc</span>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* 0° Horizontal Marquee Ribbon 2 - Seamless Flush Connection */}
-      <div className={`w-full border-y overflow-hidden select-none z-10 group cursor-default ${
+      {/* 0° Horizontal Marquee Ribbon 2 - Flush with 0 Gap */}
+      <div className={`w-full border-y overflow-hidden select-none z-10 group cursor-default m-0 ${
         isDark ? 'bg-neutral-900 text-white border-white/10' : 'bg-black text-white border-black/10'
       }`}>
         <div className="py-2.5 sm:py-3 animate-fade-in-marquee">
@@ -616,14 +869,16 @@ export const HomePage: React.FC<HomePageProps> = ({
             {[0, 1, 2].map((copyIdx) => (
               <div key={copyIdx} className="flex items-center gap-6 flex-shrink-0">
                 {marqueeResidential.map((item, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
-                    className="group/item inline-flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer hover:bg-white/20 hover:scale-105 active:scale-95 transition-all duration-200"
+                    whileHover={{ scale: 1.08, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group/item inline-flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer hover:bg-white/20 active:scale-95 transition-all duration-200"
                     title={item}
                   >
                     <span className="text-white/90 group-hover/item:text-white transition-colors">{item}</span>
                     <span className="text-[#087973] group-hover/item:text-teal-300 group-hover/item:rotate-90 group-hover/item:scale-125 transition-all duration-300">✦</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             ))}
@@ -631,9 +886,9 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 5. INERIM HOME INTERIOR PROJECTS (Residential Carousel) */}
+      {/* 5. INERIM HOME INTERIOR PROJECTS (Residential Carousel) - Flush with 0 Gap */}
       <section
-        className={`py-12 sm:py-16 transition-colors ${
+        className={`py-12 sm:py-16 transition-colors m-0 ${
           isDark
             ? 'bg-white/[0.02]'
             : 'bg-black/[0.02]'
@@ -728,8 +983,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 6. DISCOVER THE PRICE BANNER */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 my-12 sm:my-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
           className={`border rounded-2xl p-6 sm:p-10 text-center relative overflow-hidden transition-colors ${
             isDark
               ? 'bg-white/[0.03] border-white/10 text-white'
@@ -748,21 +1007,23 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
 
             <div className="pt-2">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 id="discover-price-calculate-now-btn"
                 onClick={onOpenCalculator}
                 className="px-5 py-2.5 rounded-lg bg-[#087973] hover:bg-[#06615c] active:scale-[0.98] text-white font-medium text-xs uppercase tracking-wider shadow transition-all cursor-pointer inline-flex items-center gap-1.5"
               >
                 <Calculator className="w-3.5 h-3.5" />
                 <span>Calculate Now</span>
-              </button>
+              </motion.button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 7. INERIM OFFICE INTERIOR PROJECTS (Commercial Carousel) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 sm:my-16">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-widest text-[#087973]">
@@ -806,8 +1067,9 @@ export const HomePage: React.FC<HomePageProps> = ({
         {/* Office projects row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {commercialProjects.slice(officeSlide, officeSlide + 3).map((project) => (
-            <div
+            <motion.div
               key={project.id}
+              whileHover={{ y: -6, transition: { type: 'spring', stiffness: 350, damping: 25 } }}
               onClick={() => onSelectProject(project)}
               className={`group rounded-xl overflow-hidden border shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col ${
                 isDark
@@ -844,14 +1106,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                   Explore <ChevronRight className="w-3 h-3" />
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* 8. HOW WE ARE STANDING OUT FROM THE COMPETITION */}
       <section
-        className={`py-14 sm:py-18 border-y transition-colors ${
+        className={`py-14 sm:py-18 border-y transition-colors my-12 sm:my-16 ${
           isDark
             ? 'bg-white/[0.02] border-white/10'
             : 'bg-black/[0.02] border-black/10'
@@ -872,13 +1134,15 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
 
               <div className="pt-2">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   id="talk-to-designers-btn"
                   onClick={() => setCurrentPage('contact')}
                   className="px-5 py-2.5 rounded-lg bg-[#087973] hover:bg-[#06615c] active:scale-[0.98] text-white font-medium text-xs uppercase tracking-wider shadow transition-all cursor-pointer"
                 >
                   Talk To Our Architects
-                </button>
+                </motion.button>
               </div>
             </div>
 
@@ -931,7 +1195,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 9. HAPPY CUSTOMERS (Client Reviews) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 sm:my-16">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl sm:text-4xl font-bold font-serif tracking-tight">
             Client <span className="text-[#087973]">Perspectives</span>
@@ -943,8 +1207,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {TESTIMONIALS.slice(0, 3).map((item) => (
-            <div
+            <motion.div
               key={item.id}
+              whileHover={{ y: -6, transition: { type: 'spring', stiffness: 350, damping: 25 } }}
               className={`rounded-xl p-6 flex flex-col justify-between border transition-all ${
                 isDark
                   ? 'bg-white/[0.03] border-white/10 text-white'
@@ -983,14 +1248,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <p className={`text-[10px] ${isDark ? 'text-white/50' : 'text-black/50'}`}>{item.companyOrProject}</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* 10. LATEST JOURNAL ARTICLES */}
       <section
-        className={`py-14 sm:py-18 border-t transition-colors ${
+        className={`py-14 sm:py-18 border-t transition-colors my-12 sm:my-16 ${
           isDark
             ? 'bg-white/[0.02] border-white/10'
             : 'bg-black/[0.02] border-black/10'
@@ -1017,8 +1282,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BLOG_POSTS.slice(0, 3).map((post) => (
-              <article
+              <motion.article
                 key={post.id}
+                whileHover={{ y: -6, transition: { type: 'spring', stiffness: 350, damping: 25 } }}
                 onClick={() => onSelectPost(post)}
                 className={`rounded-xl overflow-hidden border transition-all cursor-pointer flex flex-col group ${
                   isDark
@@ -1060,15 +1326,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
       {/* 11. FINAL CALL TO ACTION */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className={`border rounded-2xl p-6 sm:p-10 text-center relative overflow-hidden transition-colors ${
             isDark
               ? 'bg-white/[0.03] border-white/10 text-white'
@@ -1084,14 +1354,18 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
 
             <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 id="cta-get-started-btn"
                 onClick={() => setCurrentPage('contact')}
                 className="px-5 py-2.5 rounded-lg bg-[#087973] hover:bg-[#06615c] active:scale-[0.98] text-white font-medium text-xs uppercase tracking-wider shadow transition-all cursor-pointer"
               >
                 Schedule Consultation
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={onOpenCalculator}
                 className={`px-4.5 py-2.5 rounded-lg border font-medium text-xs uppercase tracking-wider transition-all cursor-pointer ${
                   isDark
@@ -1100,10 +1374,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                 }`}
               >
                 Calculate Cost
-              </button>
+              </motion.button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
