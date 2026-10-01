@@ -1,0 +1,9 @@
+node_modules/
+build/
+# dist/ is commented out so built files can be pushed to GitHub & deployed to public_html via cPanel Git Version Control
+# dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
