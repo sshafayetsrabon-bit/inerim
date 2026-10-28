@@ -56,19 +56,46 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: project.title,
-    description: project.description,
-    image: gallery,
-    locationCreated: {
-      '@type': 'Place',
-      name: project.location,
-    },
-    creator: {
-      '@type': 'Organization',
-      name: 'INERIM Interior',
-      url: 'https://inerimbd.com',
-    },
+    '@graph': [
+      {
+        '@type': 'CreativeWork',
+        name: project.title,
+        description: project.description,
+        image: gallery,
+        locationCreated: {
+          '@type': 'Place',
+          name: project.location,
+        },
+        creator: {
+          '@type': 'Organization',
+          name: 'INERIM Interior',
+          url: 'https://inerimbd.com',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://inerimbd.com/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Portfolio',
+            item: 'https://inerimbd.com/projects',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: project.title,
+            item: `https://inerimbd.com/projects/${project.id}`,
+          },
+        ],
+      },
+    ],
   };
 
   return (

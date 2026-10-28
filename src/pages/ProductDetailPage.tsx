@@ -58,27 +58,54 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    image: product.images.map((img) =>
-      img.startsWith('http') ? img : `https://inerimbd.com${img}`
-    ),
-    description: product.shortDescription || product.description,
-    sku: product.id,
-    category: product.category,
-    brand: {
-      '@type': 'Brand',
-      name: 'INERIM Interior',
-    },
-    offers: {
-      '@type': 'Offer',
-      url: `https://inerimbd.com/shop/${product.slug}`,
-      priceCurrency: 'BDT',
-      price: product.price,
-      priceValidUntil: '2027-12-31',
-      availability: 'https://schema.org/InStock',
-      itemCondition: 'https://schema.org/NewCondition',
-    },
+    '@graph': [
+      {
+        '@type': 'Product',
+        name: product.name,
+        image: product.images.map((img) =>
+          img.startsWith('http') ? img : `https://inerimbd.com${img}`
+        ),
+        description: product.shortDescription || product.description,
+        sku: product.id,
+        category: product.category,
+        brand: {
+          '@type': 'Brand',
+          name: 'INERIM Interior',
+        },
+        offers: {
+          '@type': 'Offer',
+          url: `https://inerimbd.com/shop/${product.slug}`,
+          priceCurrency: 'BDT',
+          price: product.price,
+          priceValidUntil: '2027-12-31',
+          availability: 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://inerimbd.com/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Shop',
+            item: 'https://inerimbd.com/shop',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: product.name,
+            item: `https://inerimbd.com/shop/${product.slug}`,
+          },
+        ],
+      },
+    ],
   };
 
   return (

@@ -74,20 +74,78 @@ export const ContactPage: React.FC<ContactPageProps> = ({ initialPrefill, onOpen
         keywords="contact interior designer Dhaka, book interior architect Bangladesh, Inerim studio location, interior design consultation Dhaka, interior estimate inquiry"
         jsonLd={{
           '@context': 'https://schema.org',
-          '@type': 'ContactPage',
-          name: 'Contact INERIM Interior',
-          description: 'Book an architectural consultation with INERIM Interior in Dhaka, Bangladesh',
-          url: 'https://inerimbd.com/contact',
-          mainEntity: {
-            '@type': 'LocalBusiness',
-            name: 'INERIM Interior',
-            telephone: '+8801898755000',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: 'Dhaka',
-              addressCountry: 'BD',
+          '@graph': [
+            {
+              '@type': 'ContactPage',
+              name: 'Contact INERIM Interior',
+              description: 'Book an architectural consultation with INERIM Interior in Dhaka, Bangladesh',
+              url: 'https://inerimbd.com/contact',
+              mainEntity: {
+                '@type': 'LocalBusiness',
+                name: 'INERIM Interior',
+                telephone: '+8801898755000',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: 'House 12, Road 4, Sector 3, Uttara',
+                  addressLocality: 'Dhaka',
+                  addressCountry: 'BD',
+                },
+              },
             },
-          },
+            {
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'How do you guarantee project delivery within 45 days?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'We manufacture 75% of all cabinetry, wall paneling, and modular elements inside our specialized off-site German CNC prefabrication facility while simultaneous civil, flooring, and electrical ducting work proceeds on-site. This parallel workflow slashes on-site mess and avoids traditional delays.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What is included in Inerim’s Flat 2-Years Warranty?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Our warranty covers structural stability of all woodwork, Blum / Hettich drawer runners and hinge mechanisms, lighting transformers, and anti-termite integrity. If any issue arises, our dedicated post-handover team resolves it free of charge within 48 hours.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How much does interior design cost per square foot in Bangladesh?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Turnkey interior execution packages in Dhaka start from ৳1,350/sq.ft for Essential Living, ৳1,950/sq.ft for Signature Architectural, and ৳2,850/sq.ft for Bespoke Ultra-Luxury with an itemized, locked Bill of Quantities (BOQ).',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can I choose my own materials, paints, and marble finishes?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. During our design phase, you visit our Materials Lab to touch and select certified swatches: natural veneers, acrylic laminates, quartz, sintered stone, and low-VOC paints.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Are there any hidden costs after we agree on the estimate?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'None. We provide a contractually locked, line-by-line Bill of Quantities (BOQ). The price agreed upon at deposit is the final price.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Do you handle commercial offices, retail shops, and residential homes?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. We have dedicated architectural squads for luxury residential interiors (duplexes, penthouses, apartments) and commercial high-performance workplaces (tech hubs, corporate headquarters, boutique showrooms).',
+                  },
+                },
+              ],
+            },
+          ],
         }}
       />
       {/* 1. Page Header */}

@@ -47,25 +47,52 @@ export const JournalDetailPage: React.FC<JournalDetailPageProps> = ({
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt,
-    image: post.coverImage,
-    datePublished: post.date,
-    author: {
-      '@type': 'Person',
-      name: post.author.name,
-      jobTitle: post.author.role,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'INERIM Interior',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://inerimbd.com/logo.jpg',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        image: post.coverImage,
+        datePublished: post.date,
+        author: {
+          '@type': 'Person',
+          name: post.author.name,
+          jobTitle: post.author.role,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'INERIM Interior',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://inerimbd.com/logo.jpg',
+          },
+        },
+        mainEntityOfPage: `https://inerimbd.com/journal/${post.slug}`,
       },
-    },
-    mainEntityOfPage: `https://inerimbd.com/journal/${post.slug}`,
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://inerimbd.com/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Journal',
+            item: 'https://inerimbd.com/journal',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: post.title,
+            item: `https://inerimbd.com/journal/${post.slug}`,
+          },
+        ],
+      },
+    ],
   };
 
   return (

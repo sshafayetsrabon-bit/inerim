@@ -362,35 +362,76 @@ export const HomePage: React.FC<HomePageProps> = ({
         keywords="interior design Bangladesh, interior design Dhaka, luxury apartment interior, turnkey interior execution, office interior design Dhaka, modular kitchen Bangladesh, Gulshan interior designer, Banani interior design"
         jsonLd={{
           '@context': 'https://schema.org',
-          '@type': 'HomeAndConstructionBusiness',
-          name: 'INERIM Interior',
-          alternateName: 'INERIM Architectural Interior Design Studio',
-          image: 'https://inerimbd.com/designs/d17.jpg',
-          '@id': 'https://inerimbd.com/#business',
-          url: 'https://inerimbd.com',
-          telephone: '+8801898755000',
-          priceRange: '৳1,350 - ৳3,800 per sq.ft',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'House 12, Road 4, Sector 3, Uttara',
-            addressLocality: 'Dhaka',
-            postalCode: '1230',
-            addressCountry: 'BD',
-          },
-          geo: {
-            '@type': 'GeoCoordinates',
-            latitude: 23.8759,
-            longitude: 90.3795,
-          },
-          openingHoursSpecification: {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
-            opens: '10:00',
-            closes: '20:00',
-          },
-          sameAs: [
-            'https://facebook.com/inerimbd',
-            'https://instagram.com/inerimbd',
+          '@graph': [
+            {
+              '@type': 'HomeAndConstructionBusiness',
+              name: 'INERIM Interior',
+              alternateName: 'INERIM Architectural Interior Design Studio',
+              image: 'https://inerimbd.com/designs/d17.jpg',
+              '@id': 'https://inerimbd.com/#business',
+              url: 'https://inerimbd.com',
+              telephone: '+8801898755000',
+              priceRange: '৳1,350 - ৳3,800 per sq.ft',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'House 12, Road 4, Sector 3, Uttara',
+                addressLocality: 'Dhaka',
+                postalCode: '1230',
+                addressCountry: 'BD',
+              },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: 23.8759,
+                longitude: 90.3795,
+              },
+              openingHoursSpecification: {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
+                opens: '10:00',
+                closes: '20:00',
+              },
+              sameAs: [
+                'https://facebook.com/inerimbd',
+                'https://instagram.com/inerimbd',
+              ],
+            },
+            {
+              '@type': 'WebSite',
+              name: 'INERIM Interior',
+              url: 'https://inerimbd.com',
+              publisher: {
+                '@id': 'https://inerimbd.com/#business',
+              },
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'How does INERIM guarantee interior handover in 45 days in Bangladesh?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'INERIM prefabricates 75% of all cabinetry and joinery off-site in an automated German CNC plant with Homag edge-banding while civil, false ceiling, and electrical works occur simultaneously on-site. The 45-day deadline is contractually backed by a ৳5,000/day penalty paid to the client if delayed.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How much does modern apartment interior design cost per sqft in Dhaka?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Transparent turnkey packages start at ৳1,350/sq.ft for Essential Living, ৳1,950/sq.ft for Signature Architectural, and ৳2,850/sq.ft for Bespoke Ultra-Luxury with an itemized, 100% locked Bill of Quantities (BOQ).',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What warranty is offered on INERIM residential interiors?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Every project includes a Flat 2-Year Comprehensive Warranty covering structural woodwork, German Blum hardware runners and hinges, lighting drivers, and moisture/termite resilience with a 48-hour emergency response SLA.',
+                  },
+                },
+              ],
+            },
           ],
         }}
       />
