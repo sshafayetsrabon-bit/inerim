@@ -7,3 +7,13 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local CMS data (dev only)
+.cms-data/
+
+# Local working files (not part of the site)
+.visualizer-preview/
+inerim docs/
+command git push.txt
+.claude/
+INERIM.jpeg

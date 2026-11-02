@@ -1,0 +1,9 @@
+Options -Indexes
+# Make sure the admin token reaches PHP on CGI/FastCGI hosts.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+<FilesMatch "\.(json|log|tmp)$">
+  Require all denied
+</FilesMatch>
