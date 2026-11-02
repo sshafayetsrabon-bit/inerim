@@ -10,6 +10,7 @@ import { Recolor, exportRecolor } from '../components/Recolor';
 import { Field, Honeypot, SentPanel, useInquiry } from '../components/Form';
 import { Button, EASE, PageHeader } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { breadcrumbs } from '../lib/schema';
 
 type Looks = Record<string, Picks>;
@@ -156,7 +157,7 @@ export default function ColourStudio() {
 
   return (
     <>
-      <PageSEO title="Colour Studio: try colours on real rooms" description="Pick wall paint, upholstery and fabric colours and see them on real INERIM room renders with true light and shadow." path="/colour-studio" ld={() => [breadcrumbs([['Home', '/'], ['Colour Studio', '/colour-studio']])]} />
+      <PageSEO {...PAGE_META.colourStudio} path="/colour-studio" ld={() => [breadcrumbs([['Home', '/'], ['Colour Studio', '/colour-studio']])]} />
       <PageHeader
         eyebrow="Colour Studio"
         title="Try colours on a real INERIM room"

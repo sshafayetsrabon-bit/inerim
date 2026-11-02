@@ -6,41 +6,11 @@ import { Chips, Field, Honeypot, SentPanel, useInquiry } from '../components/For
 import { Button, EASE, Eyebrow, PageHeader, Reveal, RevealImage, SplitText } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
 import { breadcrumbs } from '../lib/schema';
+import { PARTNER_TYPES, PAGE_META } from '../lib/copy';
 
-const TYPES = [
-  {
-    id: 'Architect / Designer',
-    icon: Compass,
-    title: 'Architects & interior designers',
-    pitch: 'You design it, and we make and install it the way you drew it.',
-    offers: ['Custom cabinets, wardrobes & furniture made to your drawings', 'HPL, acrylic & laminate supply with finish samples', 'Site measurement and installation by our team', 'One point of contact for production updates'],
-    image: render(19),
-  },
-  {
-    id: 'Developer / Real estate',
-    icon: Building2,
-    title: 'Developers & real estate',
-    pitch: 'Interior packages for show flats and handovers that help units sell.',
-    offers: ['Package-based interiors for repeat unit types', 'Show-flat design, 3D visualisation and execution', 'Consistent specifications across buildings', 'Coordinated scheduling with your site team'],
-    image: render(22),
-  },
-  {
-    id: 'Dealer / Retailer',
-    icon: Store,
-    title: 'Material dealers & retailers',
-    pitch: 'Add finishing materials and pasting services to your own range.',
-    offers: ['HPL, acrylic & laminate sheet supply', 'HPL / acrylic board pasting service', 'Decorative panels & louvers', 'Aluminium profile handles & glass profile frames'],
-    image: render(27),
-  },
-  {
-    id: 'Contractor / Carpenter',
-    icon: Hammer,
-    title: 'Contractors & carpenters',
-    pitch: 'Ready-pasted boards, profiles and hardware so your team builds faster.',
-    offers: ['Board pasting with a clean, inspected finish', 'Profile handles, glass frames and brass strips', 'Help choosing finishes for your clients', 'Material sourcing for project-based work'],
-    image: render(9),
-  },
-];
+const ICONS = [Compass, Building2, Store, Hammer];
+const TYPES = PARTNER_TYPES.map((t, i) => ({ ...t, icon: ICONS[i] }));
+
 
 const VOLUMES = ['Just starting', 'A few projects a year', 'Monthly orders', 'Large / ongoing volume'] as const;
 
@@ -49,7 +19,7 @@ export default function Partnership() {
   const t = TYPES[active];
   return (
     <>
-      <PageSEO title="Partnership program for architects, developers & dealers" description="Partner with INERIM for HPL/acrylic supply, board pasting, custom cabinets and interior execution." path="/partnership" ld={() => [breadcrumbs([['Home', '/'], ['Partnership', '/partnership']])]} />
+      <PageSEO {...PAGE_META.partnership} path="/partnership" ld={() => [breadcrumbs([['Home', '/'], ['Partnership', '/partnership']])]} />
       <PageHeader
         eyebrow="Partnership program"
         title="Build more, together"

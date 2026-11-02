@@ -9,6 +9,7 @@ import { ProductCard } from '../components/ProductCard';
 import { Recolor } from '../components/Recolor';
 import { AnimatedNumber, ArrowCircle, Button, EASE, Eyebrow, NotchLabel, Reveal, RevealImage, RotatingBadge, SplitText, Tag } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { faqPage, packagesCatalog } from '../lib/schema';
 import { FAQS } from './About';
 
@@ -40,6 +41,7 @@ function Hero() {
 
   return (
     <section ref={ref} className="px-2 pt-[100px] sm:px-4">
+      <h1 className="sr-only">INERIM Interior: interior design, furniture and materials in Bangladesh</h1>
       <motion.div style={{ scale, borderRadius: radius }} className="relative h-[calc(100svh-112px)] min-h-[560px] overflow-hidden bg-sand">
         <AnimatePresence initial={false}>
           <motion.img
@@ -57,7 +59,7 @@ function Hero() {
 
         <motion.div style={{ y: wordY }} className="pointer-events-none absolute inset-x-0 top-[14%] text-center">
           <AnimatePresence mode="wait">
-            <motion.h1 key={SLIDES[i].word} className="text-[15vw] font-semibold leading-none tracking-[-0.06em] text-white [text-shadow:0_8px_40px_rgba(0,0,0,0.25)] md:text-[12.5vw]" aria-label={SLIDES[i].word}>
+            <motion.p aria-hidden key={SLIDES[i].word} className="text-[15vw] font-semibold leading-none tracking-[-0.06em] text-white [text-shadow:0_8px_40px_rgba(0,0,0,0.25)] md:text-[12.5vw]">
               {SLIDES[i].word.split('').map((ch, k) => (
                 <span key={k} className="inline-block overflow-hidden align-bottom">
                   <motion.span
@@ -71,7 +73,7 @@ function Hero() {
                   </motion.span>
                 </span>
               ))}
-            </motion.h1>
+            </motion.p>
           </AnimatePresence>
         </motion.div>
 
@@ -435,8 +437,7 @@ export default function Home() {
   return (
     <>
       <PageSEO
-        title="INERIM Interior | Your Dream Space. Our Responsibility."
-        description="Modern, premium interior design and execution in Bangladesh. Modular kitchens, wardrobes, custom furniture, HPL/acrylic supply and board pasting. Packages from ৳1,350/sft: see your price instantly."
+        {...PAGE_META.home}
         path="/"
         ld={(c) => [{ '@type': 'WebSite', '@id': 'https://inerimbd.com/#website', name: 'INERIM Interior', url: 'https://inerimbd.com' }, packagesCatalog(c.settings), faqPage(FAQS)]}
       />

@@ -5,43 +5,9 @@ import { render } from '../lib/seed';
 import { Button, Eyebrow, PageHeader, Reveal, SplitText } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
 import { breadcrumbs } from '../lib/schema';
+import { SERVICE_GROUPS as GROUPS, SIGNATURE_ELEMENTS as ELEMENTS, PAGE_META } from '../lib/copy';
 
-const GROUPS = [
-  {
-    no: '01',
-    title: 'Design',
-    lead: 'Plan the space before anything gets built.',
-    items: ['Interior design & space planning', '3D interior visualisation', 'Living, dining, bedroom & foyer interiors', 'Material & colour selection'],
-    image: render(18, 'lg'),
-    bg: '#ffffff',
-  },
-  {
-    no: '02',
-    title: 'Build',
-    lead: 'Custom cabinets and furniture, made to your measurements.',
-    items: ['Modular kitchen design & execution', 'Wardrobes & bedroom cabinets', 'TV cabinets, wall cabinets & custom storage', 'Custom furniture design & manufacturing'],
-    image: render(27, 'lg'),
-    bg: '#ebe5db',
-  },
-  {
-    no: '03',
-    title: 'Supply',
-    lead: 'The finishing materials, supplied and pasted.',
-    items: ['HPL, acrylic & laminate sheet supply', 'HPL / acrylic board pasting service', 'Decorative wall panels & louvers', 'Aluminium profile handles & glass profile frames'],
-    image: render(15, 'lg'),
-    bg: '#dbeae7',
-  },
-  {
-    no: '04',
-    title: 'Execute',
-    lead: 'One coordinated team from sourcing to handover.',
-    items: ['Project-based material sourcing', 'Installation & interior execution', 'Stage-by-stage quality checks', 'Final inspection & handover walkthrough'],
-    image: render(21, 'lg'),
-    bg: '#171614',
-  },
-];
 
-const ELEMENTS = ['Walnut veneer', 'Fluted panels', 'Decorative louvers', 'Brass strips', 'Marble-pattern surfaces', 'Arch designs', 'Glass & wood', 'Modular kitchens', 'Custom wardrobes'];
 
 function StackCard({ g, i, total }: { g: (typeof GROUPS)[number]; i: number; total: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -79,7 +45,7 @@ function StackCard({ g, i, total }: { g: (typeof GROUPS)[number]; i: number; tot
 export default function Services() {
   return (
     <>
-      <PageSEO title="Interior design, furniture & material supply services" description="Design, build, supply and execute: space planning, 3D visualisation, modular kitchens, wardrobes, custom furniture, HPL/acrylic sheets, board pasting and installation." path="/services" ld={() => [breadcrumbs([['Home', '/'], ['Services', '/services']])]} />
+      <PageSEO {...PAGE_META.services} path="/services" ld={() => [breadcrumbs([['Home', '/'], ['Services', '/services']])]} />
       <PageHeader
         eyebrow="Services"
         title="From the first sketch to the last hinge"

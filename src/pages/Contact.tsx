@@ -7,6 +7,7 @@ import type { Estimate } from '../components/Calculator';
 import { Chips, Field, Honeypot, SentPanel, useInquiry } from '../components/Form';
 import { Button, PageHeader, Reveal, formatBDT, whatsappLink } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { breadcrumbs } from '../lib/schema';
 
 const MEETING = ['Studio meeting', 'Site visit', 'Video call', 'Phone call'] as const;
@@ -51,7 +52,7 @@ export default function Contact() {
 
   return (
     <>
-      <PageSEO title="Book a consultation" description="Book a studio meeting, site visit or video call with INERIM Interior. Call, WhatsApp or send your project details online." path="/contact" ld={() => [{ '@type': 'ContactPage', name: 'Contact INERIM Interior', url: 'https://inerimbd.com/contact' }, breadcrumbs([['Home', '/'], ['Contact', '/contact']])]} />
+      <PageSEO {...PAGE_META.contact} path="/contact" ld={() => [{ '@type': 'ContactPage', name: 'Contact INERIM Interior', url: 'https://inerimbd.com/contact' }, breadcrumbs([['Home', '/'], ['Contact', '/contact']])]} />
       <PageHeader eyebrow="Contact" title="Book a consultation" intro="Tell us about your space and choose how you’d like to meet. We’ll confirm a time and recommend the right next step." />
       <section className="mx-auto grid max-w-[1440px] gap-4 px-4 pb-32 sm:px-8 lg:grid-cols-[1fr_1.5fr]">
         <div className="space-y-3 lg:sticky lg:top-24 lg:self-start">

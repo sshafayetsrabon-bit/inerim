@@ -7,6 +7,7 @@ import { mdToHtml } from '../lib/markdown';
 import { Button, EASE, PageHeader, Reveal, Tag, whatsappLink } from '../components/ui';
 import NotFound from './NotFound';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { articleLd, breadcrumbs } from '../lib/schema';
 
 const fmtDate = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -21,7 +22,7 @@ export function JournalPage() {
 
   return (
     <>
-      <PageSEO title="Journal: interior ideas, guides & materials" description="Practical advice on planning, materials and pricing from the INERIM studio." path="/journal" ld={() => [{ '@type': 'Blog', name: 'INERIM Journal', url: 'https://inerimbd.com/journal' }, breadcrumbs([['Home', '/'], ['Journal', '/journal']])]} />
+      <PageSEO {...PAGE_META.journal} path="/journal" ld={() => [{ '@type': 'Blog', name: 'INERIM Journal', url: 'https://inerimbd.com/journal' }, breadcrumbs([['Home', '/'], ['Journal', '/journal']])]} />
       <PageHeader eyebrow="Journal" title="Ideas, guides & materials" intro="Practical advice on planning, materials and pricing from the INERIM studio.">
         <LayoutGroup id="journal">
           <div className="no-scrollbar mt-10 flex gap-1 overflow-x-auto">

@@ -8,6 +8,7 @@ import { useStore } from '../lib/store';
 import { ProductCard } from '../components/ProductCard';
 import { PageHeader, Reveal } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { breadcrumbs } from '../lib/schema';
 
 const SORTS = { featured: 'Featured', az: 'Name A–Z', priceAsc: 'Price: low to high', priceDesc: 'Price: high to low' } as const;
@@ -52,7 +53,7 @@ export default function Shop() {
 
   return (
     <>
-      <PageSEO title="Shop furniture, sheets, panels & hardware" description="Buy or request quotes for modular furniture, HPL, acrylic and laminate sheets, wall panels, louvers and profile hardware from INERIM." path="/shop" ld={(c) => [{ '@type': 'ItemList', name: 'INERIM shop', itemListElement: c.products.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://inerimbd.com/shop/${p.slug}`, name: p.name })) }, breadcrumbs([['Home', '/'], ['Shop', '/shop']])]} />
+      <PageSEO {...PAGE_META.shop} path="/shop" ld={(c) => [{ '@type': 'ItemList', name: 'INERIM shop', itemListElement: c.products.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://inerimbd.com/shop/${p.slug}`, name: p.name })) }, breadcrumbs([['Home', '/'], ['Shop', '/shop']])]} />
       <PageHeader
         eyebrow="Shop · Interior supplier"
         title="Materials, furniture & finishes"

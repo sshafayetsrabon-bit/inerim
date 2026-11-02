@@ -3,6 +3,9 @@
 import type { Post, Product, Project, Settings } from './types';
 
 export const SITE = 'https://inerimbd.com';
+
+/** Brand suffix only when the title still fits search results (~60 characters). */
+export const pageTitle = (t: string) => (t.includes('INERIM') || t.length + 18 > 62 ? t : `${t} | INERIM Interior`);
 const abs = (u: string) => (u.startsWith('http') ? u : `${SITE}${u.startsWith('/') ? u : `/${u}`}`);
 
 export const business = (s: Settings) => ({

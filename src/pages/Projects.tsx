@@ -6,6 +6,7 @@ import { useContent } from '../lib/cms';
 import { Button, EASE, Eyebrow, PageHeader, Reveal, RevealImage, lenis } from '../components/ui';
 import NotFound from './NotFound';
 import { PageSEO } from '../components/PageSEO';
+import { PAGE_META } from '../lib/copy';
 import { breadcrumbs, projectLd } from '../lib/schema';
 
 export function ProjectsPage() {
@@ -15,7 +16,7 @@ export function ProjectsPage() {
   const list = content.projects.filter((p) => cat === 'All' || p.category === cat);
   return (
     <>
-      <PageSEO title="Interior design projects" description="Homes and workplaces designed, built and installed by INERIM Interior in Bangladesh." path="/projects" ld={() => [breadcrumbs([['Home', '/'], ['Projects', '/projects']])]} />
+      <PageSEO {...PAGE_META.projects} path="/projects" ld={() => [breadcrumbs([['Home', '/'], ['Projects', '/projects']])]} />
       <PageHeader eyebrow="Projects" title="Spaces we’ve designed" intro="Homes and workplaces planned around budget, lifestyle and space, then built and installed by our own team.">
         {cats.length > 2 && (
           <LayoutGroup id="proj">

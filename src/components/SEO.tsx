@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { pageTitle } from '../lib/schema';
 
 export interface SEOProps {
   title: string;
@@ -29,9 +30,7 @@ export const SEO: React.FC<SEOProps> = ({
   noindex = false,
 }) => {
   // Format title with site brand suffix if not already present
-  const fullTitle = title.includes('INERIM')
-    ? title
-    : `${title} | INERIM Interior Bangladesh`;
+  const fullTitle = pageTitle(title);
 
   // Compute absolute canonical URL
   const absoluteCanonical = canonicalUrl

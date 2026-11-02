@@ -285,7 +285,12 @@ function FrozenOutlet() {
 }
 
 /** Teal curtain that wipes over the screen between pages. */
+// The reveal half of the curtain only plays when arriving from another page, not on the first visit
+// (the first visit already has the loading splash; a teal flash after it looks like a glitch).
+const appStart = typeof performance !== 'undefined' ? performance.now() : 0;
+
 function Curtain() {
+  const [reveal] = useState(() => performance.now() - appStart > 1200);
   return (
     <>
       <motion.div
@@ -297,7 +302,7 @@ function Curtain() {
       />
       <motion.div
         className="pointer-events-none fixed inset-0 z-[90] flex origin-top items-center justify-center bg-teal"
-        initial={{ scaleY: 1 }}
+        initial={{ scaleY: reveal ? 1 : 0 }}
         animate={{ scaleY: 0 }}
         exit={{ scaleY: 0 }}
         transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}

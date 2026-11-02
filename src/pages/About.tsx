@@ -5,40 +5,13 @@ import { render } from '../lib/seed';
 import { EASE, Eyebrow, PageHeader, Reveal, RevealImage, SplitText } from '../components/ui';
 import { PageSEO } from '../components/PageSEO';
 import { breadcrumbs, faqPage } from '../lib/schema';
+import { FAQS, PAIN, PROCESS, QC, PAGE_META } from '../lib/copy';
 
-const PAIN = [
-  ['Tight budget?', 'Four packages, and every design is worked out around the number you give us.'],
-  ['Limited space?', 'Space planning and custom storage that use every corner of a city apartment.'],
-  ['Too many contractors?', 'One team coordinates suppliers, production and installation for you.'],
-  ['Unsure about quality?', 'Materials are checked before purchase, and the work is inspected at every stage.'],
-];
 
-const PROCESS = [
-  ['Requirement analysis', 'We get to know your budget, lifestyle, space and design preferences, then agree on the brief and scope.'],
-  ['Site visit & measurement', 'We check actual dimensions, wall measurements, utility points, existing conditions and installation needs.'],
-  ['Design & materials', 'You see the layout, a 3D concept and the proposed materials before anything is produced.'],
-  ['Quotation & approval', 'You get a written quotation with the scope, price, exclusions and timeline, ready for your approval.'],
-  ['Confirmation & execution', 'Once terms are agreed, we produce to approved drawings, install, and check quality at each stage.'],
-  ['Inspection & handover', 'We test every door, hinge and drawer, walk through the space with you, and hand over care instructions.'],
-];
 
-const QC = [
-  'Approved quotation & specifications verified',
-  'Material type, thickness, finish & quantity checked before purchase',
-  'Production follows approved measurements & drawings',
-  'Board pasting, edge finishing & hardware fitting inspected',
-  'Alignment, finishing & function checked on install',
-  'Final inspection before handover',
-];
 
-export const FAQS = [
-  ['How is the price calculated?', 'Our packages are priced per square foot. Your final price depends on project type, dimensions, design complexity, materials, hardware, finishing and installation needs, and is confirmed after we measure the site.'],
-  ['Is the calculator price final?', 'No. It is an indicative estimate to help you plan. Full-apartment quotations are prepared project by project, after requirement analysis and site measurement.'],
-  ['What is not included by default?', 'Your written quotation states clearly whether electrical work, plumbing, civil work, countertops and appliances are included or excluded.'],
-  ['Can I buy materials only?', 'Yes. We supply HPL, acrylic and laminate sheets, offer board pasting, and provide panels, louvers, profile handles and glass profile frames. See the shop.'],
-  ['Do you work on commercial projects?', 'Yes. We mainly serve homes, and also take on offices, showrooms, retail outlets, restaurants, cafés and conference rooms.'],
-  ['What should I prepare for the first consultation?', 'Your project location, property size, a floor plan if you have one, the rooms and services you need, design references, an approximate budget and your timeline.'],
-];
+
+export { FAQS };
 
 export function Faq({ items = FAQS }: { items?: string[][] }) {
   const [open, setOpen] = useState<number | null>(0);
@@ -91,7 +64,7 @@ function Timeline() {
 export default function About() {
   return (
     <>
-      <PageSEO title="About INERIM" description="INERIM Interior designs and builds modern, premium interiors in Bangladesh around each client’s budget, lifestyle and space, with quality checks at every stage." path="/about" ld={() => [faqPage(FAQS), breadcrumbs([['Home', '/'], ['About', '/about']])]} />
+      <PageSEO {...PAGE_META.about} path="/about" ld={() => [faqPage(FAQS), breadcrumbs([['Home', '/'], ['About', '/about']])]} />
       <PageHeader
         eyebrow="About INERIM"
         title="Your dream space. Our responsibility."
