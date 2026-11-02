@@ -31,6 +31,15 @@ applications, Colour Studio looks) arrives in **Enquiries**, where you can updat
 * Until something is saved in the CMS, the site shows the starter content in `src/lib/seed.ts`.
   Items marked **Sample** are placeholders; replace them with real products and prices.
 
+## SEO
+
+* Every page sets its own title, description, canonical URL, Open Graph tags and Schema.org JSON-LD
+  (`src/components/PageSEO.tsx`, `src/components/SEO.tsx`, builders in `src/lib/schema.ts`), generated from CMS content.
+* `npm run build` also writes `sitemap.xml` (`scripts/generate-sitemap.ts`). `public/robots.txt` and `public/llms.txt`
+  describe the site to search engines and AI assistants. Keep `llms.txt` factual: no guarantees, warranties or
+  timelines that INERIM hasn't confirmed in writing.
+* Google Search Console verification is the `google-site-verification` meta tag in `index.html`.
+
 ## Develop
 
 ```bash

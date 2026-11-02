@@ -3,6 +3,8 @@ import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
 import { Plus } from 'lucide-react';
 import { render } from '../lib/seed';
 import { EASE, Eyebrow, PageHeader, Reveal, RevealImage, SplitText } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs, faqPage } from '../lib/schema';
 
 const PAIN = [
   ['Tight budget?', 'Four packages, and every design is worked out around the number you give us.'],
@@ -89,6 +91,7 @@ function Timeline() {
 export default function About() {
   return (
     <>
+      <PageSEO title="About INERIM" description="INERIM Interior designs and builds modern, premium interiors in Bangladesh around each client’s budget, lifestyle and space, with quality checks at every stage." path="/about" ld={() => [faqPage(FAQS), breadcrumbs([['Home', '/'], ['About', '/about']])]} />
       <PageHeader
         eyebrow="About INERIM"
         title="Your dream space. Our responsibility."

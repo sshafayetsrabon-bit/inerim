@@ -6,6 +6,8 @@ import { useContent } from '../lib/cms';
 import { mdToHtml } from '../lib/markdown';
 import { Button, EASE, PageHeader, Reveal, Tag, whatsappLink } from '../components/ui';
 import NotFound from './NotFound';
+import { PageSEO } from '../components/PageSEO';
+import { articleLd, breadcrumbs } from '../lib/schema';
 
 const fmtDate = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -19,6 +21,7 @@ export function JournalPage() {
 
   return (
     <>
+      <PageSEO title="Journal: interior ideas, guides & materials" description="Practical advice on planning, materials and pricing from the INERIM studio." path="/journal" ld={() => [{ '@type': 'Blog', name: 'INERIM Journal', url: 'https://inerimbd.com/journal' }, breadcrumbs([['Home', '/'], ['Journal', '/journal']])]} />
       <PageHeader eyebrow="Journal" title="Ideas, guides & materials" intro="Practical advice on planning, materials and pricing from the INERIM studio.">
         <LayoutGroup id="journal">
           <div className="no-scrollbar mt-10 flex gap-1 overflow-x-auto">
@@ -88,6 +91,7 @@ export function PostPage() {
 
   return (
     <article>
+      <PageSEO title={post.title} description={post.excerpt} path={`/journal/${post.slug}`} image={post.cover} type="article" ld={() => [articleLd(post), breadcrumbs([['Home', '/'], ['Journal', '/journal'], [post.title, `/journal/${post.slug}`]])]} />
       <motion.div style={{ scaleX: progress }} className="fixed inset-x-0 top-0 z-[61] h-[3px] origin-left bg-teal" />
       <header className="mx-auto max-w-[900px] px-4 pt-36 text-center sm:px-8 md:pt-44">
         <Link to="/journal" className="mb-8 inline-flex items-center gap-2 text-sm text-muted hover:text-ink">

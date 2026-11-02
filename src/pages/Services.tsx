@@ -3,6 +3,8 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { render } from '../lib/seed';
 import { Button, Eyebrow, PageHeader, Reveal, SplitText } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs } from '../lib/schema';
 
 const GROUPS = [
   {
@@ -77,6 +79,7 @@ function StackCard({ g, i, total }: { g: (typeof GROUPS)[number]; i: number; tot
 export default function Services() {
   return (
     <>
+      <PageSEO title="Interior design, furniture & material supply services" description="Design, build, supply and execute: space planning, 3D visualisation, modular kitchens, wardrobes, custom furniture, HPL/acrylic sheets, board pasting and installation." path="/services" ld={() => [breadcrumbs([['Home', '/'], ['Services', '/services']])]} />
       <PageHeader
         eyebrow="Services"
         title="From the first sketch to the last hinge"

@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+# Explicit Allowances for AI Search & Retrieval Agents
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Sitemaps & Machine-Readable LLM Knowledge Files
+Sitemap: https://inerimbd.com/sitemap.xml
+# LLM Knowledge Graph: https://inerimbd.com/llms.txt

@@ -9,6 +9,8 @@ import { ProductCard } from '../components/ProductCard';
 import { Recolor } from '../components/Recolor';
 import { Button, EASE, Reveal, Swatch, priceLabel, swatchStyle, whatsappLink } from '../components/ui';
 import NotFound from './NotFound';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs, productLd } from '../lib/schema';
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -35,6 +37,7 @@ export default function ProductPage() {
 
   return (
     <>
+      <PageSEO title={product.name} description={product.summary} path={`/shop/${product.slug}`} image={product.images[0]} type="product" ld={() => [productLd(product), breadcrumbs([['Home', '/'], ['Shop', '/shop'], [product.name, `/shop/${product.slug}`]])]} />
       <section className="mx-auto max-w-[1440px] px-4 pb-24 pt-28 sm:px-8 md:pt-36">
         <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted hover:text-ink">
           <ArrowLeft className="h-4 w-4" /> Back to shop

@@ -1,9 +1,11 @@
 import { motion } from 'motion/react';
 import { Button, EASE } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
 
 export default function NotFound() {
   return (
     <section className="flex min-h-[80vh] flex-col items-center justify-center px-4 pt-24 text-center">
+      <PageSEO title="Page not found" path="/404" noindex />
       <motion.p initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, ease: EASE }} className="text-[28vw] font-semibold leading-none tracking-[-0.08em] text-sand md:text-[18vw]">
         404
       </motion.p>

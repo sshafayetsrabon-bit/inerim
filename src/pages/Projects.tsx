@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, X } from 'lucide-react';
 import { useContent } from '../lib/cms';
 import { Button, EASE, Eyebrow, PageHeader, Reveal, RevealImage, lenis } from '../components/ui';
 import NotFound from './NotFound';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs, projectLd } from '../lib/schema';
 
 export function ProjectsPage() {
   const { content } = useContent();
@@ -13,6 +15,7 @@ export function ProjectsPage() {
   const list = content.projects.filter((p) => cat === 'All' || p.category === cat);
   return (
     <>
+      <PageSEO title="Interior design projects" description="Homes and workplaces designed, built and installed by INERIM Interior in Bangladesh." path="/projects" ld={() => [breadcrumbs([['Home', '/'], ['Projects', '/projects']])]} />
       <PageHeader eyebrow="Projects" title="Spaces we’ve designed" intro="Homes and workplaces planned around budget, lifestyle and space, then built and installed by our own team.">
         {cats.length > 2 && (
           <LayoutGroup id="proj">
@@ -96,6 +99,7 @@ export function ProjectDetail() {
 
   return (
     <>
+      <PageSEO title={project.title} description={project.summary} path={`/projects/${project.slug}`} image={project.cover} ld={() => [projectLd(project), breadcrumbs([['Home', '/'], ['Projects', '/projects'], [project.title, `/projects/${project.slug}`]])]} />
       <section className="px-2 pt-[100px] sm:px-4">
         <div className="relative h-[80svh] min-h-[480px] overflow-hidden rounded-[32px]">
           <motion.img style={{ y: heroY }} src={project.cover} alt={project.title} className="h-[120%] w-full object-cover" />

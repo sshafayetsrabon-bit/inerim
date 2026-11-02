@@ -5,6 +5,7 @@ import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { Chips, Field, Honeypot, SentPanel, useInquiry } from '../components/Form';
 import { Button, EASE, PageHeader, formatBDT } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
 
 const NEEDS = ['Supply only', 'Supply & installation', 'Not sure yet'] as const;
 
@@ -35,6 +36,7 @@ export default function Quote() {
 
   return (
     <>
+      <PageSEO title="Your quote list" path="/quote" noindex />
       <PageHeader eyebrow="Quote list" title="Your quotation request" intro="Add products from the shop, adjust quantities and send the list. We reply with prices, availability and lead times." />
       <section className="mx-auto max-w-[1440px] px-4 pb-32 sm:px-8">
         {state === 'sent' || state === 'offline' ? (

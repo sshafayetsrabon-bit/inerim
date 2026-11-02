@@ -2,11 +2,14 @@ import { useSettings } from '../lib/cms';
 import { Calculator } from '../components/Calculator';
 import { Eyebrow, PageHeader, Reveal, SplitText, formatBDT } from '../components/ui';
 import { Faq, FAQS } from './About';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs, faqPage, packagesCatalog } from '../lib/schema';
 
 export default function Pricing() {
   const s = useSettings();
   return (
     <>
+      <PageSEO title="Interior design pricing & packages" description="INERIM package rates per square foot: Essential, Comfort, Elite and Signature. Estimate your interior cost instantly." path="/pricing" ld={(c) => [packagesCatalog(c.settings), faqPage(FAQS.slice(0, 3)), breadcrumbs([['Home', '/'], ['Pricing', '/pricing']])]} />
       <PageHeader
         eyebrow="Pricing"
         title="Know your price before you call"

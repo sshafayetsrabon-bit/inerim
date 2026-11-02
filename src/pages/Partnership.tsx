@@ -4,6 +4,8 @@ import { Building2, Check, Compass, Hammer, Store } from 'lucide-react';
 import { render } from '../lib/seed';
 import { Chips, Field, Honeypot, SentPanel, useInquiry } from '../components/Form';
 import { Button, EASE, Eyebrow, PageHeader, Reveal, RevealImage, SplitText } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
+import { breadcrumbs } from '../lib/schema';
 
 const TYPES = [
   {
@@ -47,6 +49,7 @@ export default function Partnership() {
   const t = TYPES[active];
   return (
     <>
+      <PageSEO title="Partnership program for architects, developers & dealers" description="Partner with INERIM for HPL/acrylic supply, board pasting, custom cabinets and interior execution." path="/partnership" ld={() => [breadcrumbs([['Home', '/'], ['Partnership', '/partnership']])]} />
       <PageHeader
         eyebrow="Partnership program"
         title="Build more, together"

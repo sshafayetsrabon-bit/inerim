@@ -8,6 +8,9 @@ import { Calculator } from '../components/Calculator';
 import { ProductCard } from '../components/ProductCard';
 import { Recolor } from '../components/Recolor';
 import { AnimatedNumber, ArrowCircle, Button, EASE, Eyebrow, NotchLabel, Reveal, RevealImage, RotatingBadge, SplitText, Tag } from '../components/ui';
+import { PageSEO } from '../components/PageSEO';
+import { faqPage, packagesCatalog } from '../lib/schema';
+import { FAQS } from './About';
 
 const SLIDES = [
   { n: 17, word: 'Contemporary' },
@@ -431,6 +434,12 @@ function JournalTeaser() {
 export default function Home() {
   return (
     <>
+      <PageSEO
+        title="INERIM Interior | Your Dream Space. Our Responsibility."
+        description="Modern, premium interior design and execution in Bangladesh. Modular kitchens, wardrobes, custom furniture, HPL/acrylic supply and board pasting. Packages from ৳1,350/sft: see your price instantly."
+        path="/"
+        ld={(c) => [{ '@type': 'WebSite', '@id': 'https://inerimbd.com/#website', name: 'INERIM Interior', url: 'https://inerimbd.com' }, packagesCatalog(c.settings), faqPage(FAQS)]}
+      />
       <Hero />
       <Bento />
       <Stats />
