@@ -18,13 +18,13 @@ export const SCENES: StudioScene[] = [
         "label": "Wall paint",
         "kind": "paint",
         "mask": "/visualizer/master-walls.png",
-        "baseY": 0.2889,
+        "baseY": 0.2838,
         "baseRgb": [
-          0.4114,
-          0.2559,
-          0.2551
+          0.407,
+          0.2506,
+          0.2493
         ],
-        "coverage": 0.175
+        "coverage": 0.1763
       },
       {
         "id": "bedding",
