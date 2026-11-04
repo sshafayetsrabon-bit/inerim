@@ -18,26 +18,26 @@ export const SCENES: StudioScene[] = [
         "label": "Wall paint",
         "kind": "paint",
         "mask": "/visualizer/master-walls.png",
-        "baseY": 0.2789,
+        "baseY": 0.2927,
         "baseRgb": [
-          0.4013,
-          0.2457,
-          0.2477
+          0.4147,
+          0.2597,
+          0.2599
         ],
-        "coverage": 0.1717
+        "coverage": 0.1765
       },
       {
         "id": "bedding",
         "label": "Bed throw & cushion",
         "kind": "fabric",
         "mask": "/visualizer/master-bedding.png",
-        "baseY": 0.2271,
+        "baseY": 0.2286,
         "baseRgb": [
-          0.3372,
-          0.1962,
-          0.2087
+          0.339,
+          0.1976,
+          0.21
         ],
-        "coverage": 0.0286
+        "coverage": 0.0291
       },
       {
         "id": "headboard",

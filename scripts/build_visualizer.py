@@ -31,21 +31,90 @@ LONG_SIDE = 1600
 R = lambda x0, y0, x1, y1: [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
 
 # exact outlines of the mauve throw and cushion in the master bedroom (same colour family as the wall)
-THROW = [(41.4, 64.7), (52.3, 64.7), (54.4, 81.9), (38.6, 81.9)]
+THROW = [(41.4, 64.7), (52.8, 64.7), (54.4, 81.9), (38.6, 81.9)]
 PINK_CUSHION = [(58.2, 69.6), (63.5, 65.4), (73.7, 66.4), (65.5, 72.7)]
+
+# Precise polygon masks for master bedroom wall boundaries & exclusions
+FAN_BLADE = [
+    (33.5, 18.0), (37.2, 18.0), (39.0, 21.8), (38.8, 23.6), (36.0, 23.6), (33.5, 21.8)
+]
+MASTER_UPPER_WALL = [
+    (7.7, 22.1), 
+    (74.0, 22.1), 
+    (74.0, 52.0), 
+    (71.5, 52.0),
+    (71.5, 60.5),
+    (68.0, 62.0),
+    (64.0, 64.0),
+    (60.0, 65.2),
+    (27.4, 65.2), 
+    (27.4, 58.8), 
+    (7.7, 58.8)
+]
+MASTER_LOWER_WALL = [
+    (7.7, 61.8),
+    (27.4, 61.8),
+    (27.4, 58.8),
+    (35.0, 58.8),
+    (35.0, 65.2),
+    (32.0, 71.0),
+    (29.5, 75.0),
+    (7.7, 75.0)
+]
+MASTER_WALL_EXCLUDES = [
+    FAN_BLADE,
+    R(9.5, 35.8, 37.6, 58.8),                                                   # Window blinds
+    [(7.6, 33.4), (26.8, 33.4), (26.8, 35.8), (7.6, 35.8)],                   # Top shelf wood board
+    R(7.6, 29.3, 11.6, 33.4),                                                   # Left books on shelf
+    R(14.8, 32.0, 19.5, 33.4),                                                  # Middle flat books
+    R(44.0, 34.5, 54.0, 49.5),                                                  # Left art frame
+    R(55.0, 34.5, 65.2, 49.5),                                                  # Right art frame
+    [(0.0, 58.8), (27.4, 58.8), (27.4, 61.8), (0.0, 61.8)],                   # Floating desk body
+    [(5.0, 48.0), (16.2, 48.0), (16.2, 68.0), (5.0, 68.0)],                   # Chair backrest
+    [(15.0, 66.8), (19.0, 66.8), (19.0, 70.2), (15.0, 70.2)],                 # Chair seat cushion
+    [(9.2, 70.0), (10.4, 70.0), (10.4, 75.0), (9.2, 75.0)],                   # Chair center leg
+    [(16.2, 70.0), (17.5, 70.0), (17.5, 75.0), (16.2, 75.0)],                 # Chair rear-right leg
+    [(19.2, 69.8), (20.5, 69.8), (20.5, 75.0), (19.2, 75.0)]                  # Chair front-right leg
+]
 
 SCENES = [
     {
         'id': 'master', 'name': 'Master Bedroom', 'src': 11,
         'product': {'slug': 'floating-bed-cove-light', 'label': 'Floating Bed with Cove Light'},
         'zones': [
-            {'id': 'walls', 'label': 'Wall paint', 'kind': 'paint', 'tol': 8.5, 'perSeed': True,
-             'seeds': [(50, 28), (65, 45), (15, 25), (55, 57), (62, 30), (40, 60), (21, 70), (6, 68), (28, 25), (45, 63), (60, 60),
-                       (63, 59), (68, 57), (55, 62), (45, 64.5), (30, 65.5), (12, 74), (18, 73.5), (22, 70), (40, 23), (70, 30),
-                       (12, 31), (20, 65), (72, 50), (73, 45)],
-             'bounds': [R(3, 21.5, 74, 79)],
-             'exclude': [THROW, PINK_CUSHION, R(0, 59.5, 28, 62.8), R(5.5, 61, 20.5, 69.5), R(44, 34.5, 54, 49.5), R(55, 34.5, 65.2, 49.5),
-                         R(9.5, 34.6, 37.6, 60.2)]},
+            {'id': 'walls', 'label': 'Wall paint', 'kind': 'paint', 'tol': 15.0, 'perSeed': True,
+             'seeds': [
+                 # Top soffit beam (left, center, right)
+                 (10.0, 24.5), (16.0, 24.5), (21.0, 24.5),
+                 (42.0, 24.5), (48.0, 24.5), (55.0, 24.5), (65.0, 24.5), (70.0, 24.5),
+                 # Upper main wall
+                 (42, 28), (50, 28), (62, 28), (70, 28),
+                 (45, 38), (55, 38), (68, 38),
+                 (65, 45), (72, 45), (73, 50),
+                 # Open shelving compartments
+                 (10.0, 27.0), (12.5, 27.0), (12.5, 31.5), 
+                 (16.5, 27.0), (16.5, 30.5), (18.5, 27.0),
+                 (21.0, 26.5), (25.5, 26.5), (26.0, 28.0), (30.0, 28.0), (35.0, 28.0),
+                 # Above desk and between desk & bed
+                 (8.5, 58.0), (26.0, 58.0),
+                 (29.0, 61.0), (31.0, 61.0), (33.0, 61.0), (30.0, 63.5), (33.0, 64.0),
+                 # Above mattress shadow strip & above pillows glow
+                 (38.0, 64.5), (42.0, 64.5), (48.0, 64.5), (54.0, 64.5), (58.0, 64.5),
+                 (62.0, 63.5), (65.0, 62.0), (68.0, 60.0), (70.0, 58.0), (71.0, 53.0),
+                 # Under desk wall (warm LED band & right of chair)
+                 (10.0, 63.5), (15.0, 63.5), (20.0, 63.5), (24.0, 63.5), (26.0, 63.5),
+                 (22.0, 65.0), (25.0, 65.0), (22.0, 69.0), (25.0, 69.0), (24.0, 73.0),
+                 (26.0, 70.0), (26.0, 73.0),
+                 (17.5, 65.0), (18.5, 65.0),
+                 # Between rear-right and front-right leg
+                 (18.5, 72.5),
+                 # Between center and rear-right leg (under seat)
+                 (13.0, 72.5), (15.0, 72.5),
+                 # Left of center leg
+                 (8.5, 72.5)
+             ],
+             'bounds': [MASTER_UPPER_WALL, MASTER_LOWER_WALL],
+             'exclude': MASTER_WALL_EXCLUDES},
             {'id': 'bedding', 'label': 'Bed throw & cushion', 'kind': 'fabric', 'tol': 14,
              'seeds': [(46, 70), (46, 76), (44, 80), (65, 68), (68, 69), (47, 66)],
              'bounds': [THROW, PINK_CUSHION]},
