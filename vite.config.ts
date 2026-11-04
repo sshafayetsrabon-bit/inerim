@@ -2,7 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
-import { cmsDevServer } from './cms-dev-server';
+import { cmsDevServer } from './cms-dev-server.ts';
 
 export default defineConfig(() => {
   return {
