@@ -17,3 +17,5 @@ inerim docs/
 command git push.txt
 .claude/
 INERIM.jpeg
+__pycache__/
+*.pyc

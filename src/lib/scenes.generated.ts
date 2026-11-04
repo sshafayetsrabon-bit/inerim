@@ -18,52 +18,52 @@ export const SCENES: StudioScene[] = [
         "label": "Wall paint",
         "kind": "paint",
         "mask": "/visualizer/master-walls.png",
-        "baseY": 0.2927,
+        "baseY": 0.2889,
         "baseRgb": [
-          0.4147,
-          0.2597,
-          0.2599
+          0.4114,
+          0.2559,
+          0.2551
         ],
-        "coverage": 0.1765
+        "coverage": 0.175
       },
       {
         "id": "bedding",
         "label": "Bed throw & cushion",
         "kind": "fabric",
         "mask": "/visualizer/master-bedding.png",
-        "baseY": 0.2286,
+        "baseY": 0.2283,
         "baseRgb": [
-          0.339,
-          0.1976,
-          0.21
+          0.3393,
+          0.1972,
+          0.2098
         ],
-        "coverage": 0.0291
+        "coverage": 0.0287
       },
       {
         "id": "headboard",
         "label": "Bed upholstery",
         "kind": "fabric",
         "mask": "/visualizer/master-headboard.png",
-        "baseY": 0.2329,
+        "baseY": 0.233,
         "baseRgb": [
-          0.3354,
+          0.3357,
           0.2117,
-          0.1415
+          0.1413
         ],
-        "coverage": 0.0314
+        "coverage": 0.0311
       },
       {
         "id": "wood",
         "label": "Wood panelling",
         "kind": "wood",
         "mask": "/visualizer/master-wood.png",
-        "baseY": 0.4239,
+        "baseY": 0.4247,
         "baseRgb": [
-          0.6162,
-          0.3884,
-          0.2088
+          0.6174,
+          0.3892,
+          0.2092
         ],
-        "coverage": 0.0826
+        "coverage": 0.082
       }
     ]
   },
