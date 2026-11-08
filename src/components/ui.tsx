@@ -369,7 +369,7 @@ export function PageHeader({ eyebrow, title, intro, children, className }: { eye
         <Eyebrow className="mb-6">{eyebrow}</Eyebrow>
       </Reveal>
       <div className="grid gap-8 md:grid-cols-[1.5fr_1fr] md:items-end">
-        <SplitText as="h1" text={title} className="text-5xl font-medium leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl" />
+        <SplitText as="h1" text={title} className="text-4xl font-medium leading-[0.95] sm:text-6xl md:text-7xl lg:text-8xl" />
         {intro && (
           <Reveal delay={0.2}>
             <p className="max-w-md text-[15px] leading-relaxed text-muted md:justify-self-end">{intro}</p>

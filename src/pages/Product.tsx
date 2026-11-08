@@ -80,7 +80,7 @@ export default function ProductPage() {
               {!product.images.length && f && <span className="absolute bottom-4 left-4 rounded-full bg-white/90 px-3 py-1.5 text-xs">{f.name}</span>}
             </motion.div>
             {product.images.length > 1 && (
-              <div className="mt-3 flex gap-2">
+              <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
                 {product.images.map((src, i) => (
                   <button key={src} onClick={() => setImg(i)} className={`h-20 w-24 cursor-pointer overflow-hidden rounded-xl transition-opacity ${i === img ? 'ring-2 ring-teal' : 'opacity-60 hover:opacity-100'}`}>
                     <img src={src} alt="" className="h-full w-full object-cover" />

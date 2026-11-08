@@ -310,7 +310,7 @@ function StudioTeaser() {
             </p>
           </div>
           <div className="mt-10">
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-6 flex flex-wrap items-center gap-2 sm:gap-3">
               {palette.slice(0, 10).map((p, idx) => (
                 <motion.span key={p.id} className="h-6 w-6 rounded-full ring-1 ring-ink/10" style={{ background: p.hex }} animate={{ scale: idx === k % 10 ? 1.3 : 1 }} />
               ))}
