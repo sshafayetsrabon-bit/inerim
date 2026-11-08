@@ -153,7 +153,7 @@ SCENES_CONFIG = [
             {
                 'id': 'walls', 'label': 'Wall paint', 'kind': 'paint',
                 'target_classes': [0], # Wall
-                'exclude_classes': [3, 5, 7, 8, 10, 15, 19, 36, 110, 123], # Floor, ceiling, bed, window, desk, chair
+                'exclude_classes': [3, 7, 8, 10, 15, 19, 36, 110, 123], # Floor, bed, window, desk, chair (ceiling already bounded by MASTER_WALL_BOUNDS)
                 'bounds': [MASTER_WALL_BOUNDS],
                 'exclude': [R(44.0, 34.5, 54.0, 49.5), R(55.0, 34.5, 65.2, 49.5)] # Art frames
             },
