@@ -66,29 +66,33 @@ export default function Quote() {
                     transition={{ duration: 0.4, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <div className="flex items-center gap-4 border-b border-line py-4 last:border-0">
-                      <Link to={`/shop/${q.slug}`} className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-sand">
-                        {q.image && <img src={q.image} alt="" className="h-full w-full object-cover" />}
-                      </Link>
-                      <div className="min-w-0 flex-1">
-                        <Link to={`/shop/${q.slug}`} className="block truncate font-medium hover:text-teal">
-                          {q.name}
+                    <div className="flex flex-col gap-3 border-b border-line py-4 last:border-0 sm:flex-row sm:items-center sm:gap-4">
+                      <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
+                        <Link to={`/shop/${q.slug}`} className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-sand sm:h-20 sm:w-20">
+                          {q.image && <img src={q.image} alt="" className="h-full w-full object-cover" />}
                         </Link>
-                        <p className="text-sm text-muted">{q.finish ? `Finish: ${q.finish}` : 'Finish to confirm'}</p>
-                        <p className="text-sm text-muted">{q.price != null ? `${formatBDT(q.price)} / ${q.unit}` : 'Price on request'}</p>
+                        <div className="min-w-0 flex-1">
+                          <Link to={`/shop/${q.slug}`} className="block truncate font-medium hover:text-teal">
+                            {q.name}
+                          </Link>
+                          <p className="text-xs text-muted sm:text-sm">{q.finish ? `Finish: ${q.finish}` : 'Finish to confirm'}</p>
+                          <p className="text-xs text-muted sm:text-sm">{q.price != null ? `${formatBDT(q.price)} / ${q.unit}` : 'Price on request'}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center rounded-full bg-paper p-1">
-                        <button onClick={() => setQty(q.key, q.qty - 1)} aria-label="Decrease" className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white">
-                          <Minus className="h-3.5 w-3.5" />
-                        </button>
-                        <span className="min-w-8 text-center text-sm">{q.qty}</span>
-                        <button onClick={() => setQty(q.key, q.qty + 1)} aria-label="Increase" className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white">
-                          <Plus className="h-3.5 w-3.5" />
+                      <div className="flex items-center justify-between gap-3 self-stretch sm:justify-end sm:self-center">
+                        <div className="flex items-center rounded-full bg-paper p-1">
+                          <button onClick={() => setQty(q.key, q.qty - 1)} aria-label="Decrease" className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white">
+                            <Minus className="h-3.5 w-3.5" />
+                          </button>
+                          <span className="min-w-8 text-center text-sm">{q.qty}</span>
+                          <button onClick={() => setQty(q.key, q.qty + 1)} aria-label="Increase" className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white">
+                            <Plus className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                        <button onClick={() => removeFromQuote(q.key)} aria-label="Remove" className="cursor-pointer p-2 text-muted hover:text-red-600">
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
-                      <button onClick={() => removeFromQuote(q.key)} aria-label="Remove" className="cursor-pointer p-2 text-muted hover:text-red-600">
-                        <Trash2 className="h-4 w-4" />
-                      </button>
                     </div>
                   </motion.div>
                 ))}

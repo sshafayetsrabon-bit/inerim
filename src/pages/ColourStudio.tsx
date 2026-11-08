@@ -162,55 +162,103 @@ export default function ColourStudio() {
         eyebrow="Colour Studio"
         title="Try colours on a real INERIM room"
         intro="Tap any surface in the photo, then pick a colour. The render keeps its real light and shadow, so you see how the colour will actually feel."
+        className="!pt-24 !pb-6 md:!pt-44 md:!pb-16"
       />
       <section className="mx-auto max-w-[1440px] px-4 pb-32 sm:px-8">
         <div className="grid gap-4 lg:grid-cols-[1.55fr_1fr]">
           {/* ---------------- stage ---------------- */}
           <div className="lg:sticky lg:top-20 lg:self-start">
-            <Stage
-              ref={stageRef}
-              scene={scene}
-              picks={picks}
-              selected={zone.id}
-              onSelect={setZoneId}
-              nameOf={nameOf}
-            />
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <ToolButton label="Undo" onClick={undo} disabled={history.i === 0}>
-                <Undo2 className="h-4 w-4" />
-              </ToolButton>
-              <ToolButton label="Redo" onClick={redo} disabled={history.i >= history.stack.length - 1}>
-                <Redo2 className="h-4 w-4" />
-              </ToolButton>
-              <ToolButton label="Reset this room" onClick={() => commit({})} disabled={!changed}>
-                <RotateCcw className="h-4 w-4" />
-              </ToolButton>
-              <span className="mx-1 h-6 w-px bg-line" />
-              <ToolButton label="Compare with original" onClick={() => stageRef.current?.toggleCompare()} disabled={!changed} wide>
-                <SplitSquareHorizontal className="h-4 w-4" /> Compare
-              </ToolButton>
-              <HoldOriginal stage={stageRef} disabled={!changed} />
-              <div className="ml-auto flex gap-2">
-                <ToolButton label="Copy share link" onClick={share} wide>
-                  <Link2 className="h-4 w-4" /> Share
-                </ToolButton>
-                <ToolButton label="Download image" onClick={() => stageRef.current?.download(summary, `inerim-${scene.id}-look.jpg`)} wide dark>
-                  <Download className="h-4 w-4" /> Download
-                </ToolButton>
+            {/* Sticky visualizer dock on mobile: stays pinned so user sees real-time changes while picking colours */}
+            <div className="sticky top-14 z-20 -mx-4 bg-paper/95 px-4 pb-2 pt-2 backdrop-blur-md sm:-mx-8 sm:px-8 lg:static lg:mx-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+              <div className="mx-auto flex w-full justify-center">
+                <Stage
+                  ref={stageRef}
+                  scene={scene}
+                  picks={picks}
+                  selected={zone.id}
+                  onSelect={setZoneId}
+                  nameOf={nameOf}
+                />
+              </div>
+              <div className="no-scrollbar mt-2 flex items-center justify-between gap-1 overflow-x-auto py-0.5 sm:mt-3 sm:gap-2">
+                <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
+                  <ToolButton label="Undo" onClick={undo} disabled={history.i === 0}>
+                    <Undo2 className="h-4 w-4" />
+                  </ToolButton>
+                  <ToolButton label="Redo" onClick={redo} disabled={history.i >= history.stack.length - 1}>
+                    <Redo2 className="h-4 w-4" />
+                  </ToolButton>
+                  <ToolButton label="Reset this room" onClick={() => commit({})} disabled={!changed}>
+                    <RotateCcw className="h-4 w-4" />
+                  </ToolButton>
+                  <span className="mx-0.5 h-5 w-px bg-line sm:mx-1 sm:h-6" />
+                  <ToolButton label="Compare with original" onClick={() => stageRef.current?.toggleCompare()} disabled={!changed} wide>
+                    <SplitSquareHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="hidden sm:inline">Compare</span>
+                  </ToolButton>
+                  <HoldOriginal stage={stageRef} disabled={!changed} />
+                </div>
+                <div className="ml-1 flex shrink-0 items-center gap-1 sm:gap-2">
+                  <ToolButton label="Copy share link" onClick={share} wide>
+                    <Link2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="hidden sm:inline">Share</span>
+                  </ToolButton>
+                  <ToolButton label="Download image" onClick={() => stageRef.current?.download(summary, `inerim-${scene.id}-look.jpg`)} wide dark>
+                    <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="hidden sm:inline">Download</span>
+                  </ToolButton>
+                </div>
+              </div>
+
+              {/* Horizontal surface picker pills for mobile */}
+              <div className="no-scrollbar -mx-1 mt-2 flex items-center gap-1.5 overflow-x-auto px-1 lg:hidden">
+                {scene.zones.map((z) => {
+                  const on = z.id === zone.id;
+                  const hex = picks[z.id];
+                  return (
+                    <button
+                      key={z.id}
+                      onClick={() => setZoneId(z.id)}
+                      className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all sm:gap-2 ${
+                        on
+                          ? 'border-ink bg-ink text-white shadow-sm'
+                          : 'border-line bg-white/95 text-ink/75 hover:bg-white hover:text-ink'
+                      }`}
+                    >
+                      <span
+                        className="h-3 w-3 shrink-0 rounded-full ring-1 ring-black/15"
+                        style={{ background: hex ?? 'conic-gradient(#d9d1c4 0 25%, #fff 0 50%, #d9d1c4 0 75%, #fff 0)' }}
+                      />
+                      <span>{z.label}</span>
+                      {hex && (
+                        <span
+                          role="button"
+                          aria-label={`Reset ${z.label}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            commit({ ...picks, [z.id]: null });
+                          }}
+                          className={`rounded-full p-0.5 ${on ? 'text-white/70 hover:text-white' : 'text-muted hover:text-ink'}`}
+                        >
+                          <X className="h-3 w-3" />
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-            <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+
+            {/* Room switching thumbnails */}
+            <div className="no-scrollbar mt-3 flex gap-2.5 overflow-x-auto pb-1 sm:gap-3">
               {SCENES.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => switchRoom(s.id)}
                   onMouseEnter={() => loadScene(s).catch(() => {})}
-                  className={`group relative h-20 w-32 shrink-0 cursor-pointer overflow-hidden rounded-2xl transition md:h-24 md:w-40 ${
+                  className={`group relative h-18 w-28 shrink-0 cursor-pointer overflow-hidden rounded-2xl transition sm:h-20 sm:w-32 md:h-24 md:w-40 ${
                     s.id === scene.id ? 'ring-2 ring-teal ring-offset-2 ring-offset-paper' : 'opacity-80 hover:opacity-100'
                   }`}
                 >
                   <img src={s.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-6 text-left text-[13px] font-medium text-white">{s.name}</span>
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-2.5 pb-1.5 pt-5 text-left text-xs font-medium text-white sm:text-[13px]">{s.name}</span>
                   {Object.values(looks[s.id] ?? {}).some(Boolean) && <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-teal ring-2 ring-white" title="You’ve changed this room" />}
                 </button>
               ))}
@@ -219,51 +267,54 @@ export default function ColourStudio() {
 
           {/* ---------------- controls ---------------- */}
           <div className="space-y-4">
-            <Panel title="1. Choose a surface" hint={<><MousePointerClick className="h-3.5 w-3.5" /> or tap it in the photo</>}>
-              <LayoutGroup id="zones">
-                <div className="grid gap-1.5">
-                  {scene.zones.map((z) => {
-                    const on = z.id === zone.id;
-                    const hex = picks[z.id];
-                    return (
-                      <div key={z.id} className="relative">
-                        {on && <motion.span layoutId="zone-active" className="absolute inset-0 rounded-2xl bg-ink" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
-                        <button
-                          onClick={() => setZoneId(z.id)}
-                          onMouseEnter={() => stageRef.current?.glow(z.id)}
-                          onMouseLeave={() => stageRef.current?.glow(null)}
-                          className={`relative flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors ${on ? 'text-white' : 'hover:bg-paper'}`}
-                        >
-                          <span
-                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full ring-1 ring-black/10"
-                            style={{ background: hex ?? 'conic-gradient(#d9d1c4 0 25%, #fff 0 50%, #d9d1c4 0 75%, #fff 0)' }}
-                          />
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-medium">{z.label}</span>
-                            <span className={`block truncate text-xs ${on ? 'text-white/60' : 'text-muted'}`}>{nameOf(hex)}</span>
-                          </span>
-                          {hex && (
+            {/* Panel 1: Shown on desktop. On mobile, the sticky surface pills above provide instant surface selection */}
+            <div className="hidden lg:block">
+              <Panel title="1. Choose a surface" hint={<><MousePointerClick className="h-3.5 w-3.5" /> or tap it in the photo</>}>
+                <LayoutGroup id="zones">
+                  <div className="grid gap-1.5">
+                    {scene.zones.map((z) => {
+                      const on = z.id === zone.id;
+                      const hex = picks[z.id];
+                      return (
+                        <div key={z.id} className="relative">
+                          {on && <motion.span layoutId="zone-active" className="absolute inset-0 rounded-2xl bg-ink" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+                          <button
+                            onClick={() => setZoneId(z.id)}
+                            onMouseEnter={() => stageRef.current?.glow(z.id)}
+                            onMouseLeave={() => stageRef.current?.glow(null)}
+                            className={`relative flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors ${on ? 'text-white' : 'hover:bg-paper'}`}
+                          >
                             <span
-                              role="button"
-                              aria-label={`Reset ${z.label}`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                commit({ ...picks, [z.id]: null });
-                              }}
-                              className={`rounded-full p-1.5 ${on ? 'hover:bg-white/15' : 'hover:bg-white'}`}
-                            >
-                              <X className="h-3.5 w-3.5" />
+                              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full ring-1 ring-black/10"
+                              style={{ background: hex ?? 'conic-gradient(#d9d1c4 0 25%, #fff 0 50%, #d9d1c4 0 75%, #fff 0)' }}
+                            />
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-sm font-medium">{z.label}</span>
+                              <span className={`block truncate text-xs ${on ? 'text-white/60' : 'text-muted'}`}>{nameOf(hex)}</span>
                             </span>
-                          )}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </LayoutGroup>
-            </Panel>
+                            {hex && (
+                              <span
+                                role="button"
+                                aria-label={`Reset ${z.label}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  commit({ ...picks, [z.id]: null });
+                                }}
+                                className={`rounded-full p-1.5 ${on ? 'hover:bg-white/15' : 'hover:bg-white'}`}
+                              >
+                                <X className="h-3.5 w-3.5" />
+                              </span>
+                            )}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </LayoutGroup>
+              </Panel>
+            </div>
 
-            <Panel title={`2. Pick a colour for ${zone.label.toLowerCase()}`}>
+            <Panel title={<><span className="hidden lg:inline">2. </span>Pick a colour for {zone.label.toLowerCase()}</> as unknown as string}>
               <Palette
                 zoneKind={zone.kind}
                 current={picks[zone.id] ?? null}
@@ -470,7 +521,7 @@ const Stage = function Stage({
   return (
     <div
       ref={wrap}
-      className="relative w-full touch-pan-y select-none overflow-hidden rounded-[28px] bg-sand"
+      className="relative w-full max-h-[36vh] sm:max-h-[44vh] lg:max-h-none max-w-[calc(36vh*1.5)] sm:max-w-[calc(44vh*1.5)] lg:max-w-none touch-pan-y select-none overflow-hidden rounded-[20px] sm:rounded-[28px] bg-sand shadow-sm"
       style={{ aspectRatio: `${scene.width} / ${scene.height}` }}
       onPointerMove={(e) => {
         if (e.pointerType !== 'mouse' || !ready) return;
@@ -718,11 +769,11 @@ function Dot({ hex, name, active, onClick, small }: { hex: string; name: string;
 
 /* ===================================================================== bits */
 
-function Panel({ title, hint, children }: { title: string; hint?: React.ReactNode; children: React.ReactNode }) {
+function Panel({ title, hint, children }: { title: React.ReactNode; hint?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="rounded-[28px] bg-white p-5 sm:p-6">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <p className="text-sm font-medium">{title}</p>
+        <div className="text-sm font-medium">{title}</div>
         {hint && <span className="flex items-center gap-1 text-xs text-muted">{hint}</span>}
       </div>
       {children}
@@ -738,7 +789,7 @@ function ToolButton({ label, onClick, disabled, children, wide, dark }: { label:
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className={`flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-full text-[13px] transition-colors disabled:cursor-not-allowed disabled:opacity-35 ${wide ? 'px-4' : 'w-10'} ${
+      className={`flex h-9 sm:h-10 cursor-pointer items-center justify-center gap-1 sm:gap-1.5 rounded-full text-xs sm:text-[13px] transition-colors disabled:cursor-not-allowed disabled:opacity-35 ${wide ? 'px-2.5 sm:px-4' : 'w-9 sm:w-10'} ${
         dark ? 'bg-ink text-white hover:bg-teal' : 'bg-white hover:bg-sand'
       }`}
     >
@@ -760,9 +811,9 @@ function HoldOriginal({ stage, disabled }: { stage: React.RefObject<StageHandle 
       onPointerCancel={() => on(false)}
       onKeyDown={(e) => (e.key === ' ' || e.key === 'Enter') && on(true)}
       onKeyUp={() => on(false)}
-      className="flex h-10 cursor-pointer touch-none select-none items-center gap-1.5 rounded-full bg-white px-4 text-[13px] hover:bg-sand disabled:cursor-not-allowed disabled:opacity-35"
+      className="flex h-9 sm:h-10 cursor-pointer touch-none select-none items-center gap-1 sm:gap-1.5 rounded-full bg-white px-2.5 sm:px-4 text-xs sm:text-[13px] hover:bg-sand disabled:cursor-not-allowed disabled:opacity-35"
     >
-      <Eye className="h-4 w-4" /> Hold for original
+      <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="hidden sm:inline">Hold for original</span><span className="sm:hidden">Hold</span>
     </button>
   );
 }

@@ -20,7 +20,7 @@ export function ProjectsPage() {
       <PageHeader eyebrow="Projects" title="Spaces we’ve designed" intro="Homes and workplaces planned around budget, lifestyle and space, then built and installed by our own team.">
         {cats.length > 2 && (
           <LayoutGroup id="proj">
-            <div className="mt-10 flex gap-1">
+            <div className="no-scrollbar -mx-1 mt-8 sm:mt-10 flex gap-1 overflow-x-auto px-1">
               {cats.map((c) => (
                 <button key={c} onClick={() => setCat(c)} className="relative cursor-pointer rounded-full px-4 py-2 text-sm">
                   {cat === c && <motion.span layoutId="proj-pill" className="absolute inset-0 rounded-full bg-ink" />}

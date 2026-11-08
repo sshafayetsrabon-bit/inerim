@@ -73,9 +73,9 @@ export default function Shop() {
                 ))}
               </div>
             </LayoutGroup>
-            <div className="flex items-center gap-2">
-              <label className="flex flex-1 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm lg:w-64 lg:flex-none">
-                <Search className="h-4 w-4 text-muted" />
+            <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+              <label className="flex w-full flex-1 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm sm:w-auto lg:w-64 lg:flex-none">
+                <Search className="h-4 w-4 shrink-0 text-muted" />
                 <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search products, finishes…" className="w-full bg-transparent outline-none placeholder:text-muted" />
                 {q && (
                   <button onClick={() => setQ('')} aria-label="Clear search" className="cursor-pointer">
@@ -83,20 +83,22 @@ export default function Shop() {
                   </button>
                 )}
               </label>
-              <select value={sort} onChange={(e) => setSort(e.target.value as keyof typeof SORTS)} className="cursor-pointer rounded-full bg-white px-4 py-2.5 text-sm outline-none" aria-label="Sort">
-                {Object.entries(SORTS).map(([k, v]) => (
-                  <option key={k} value={k}>
-                    {v}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={toggleSaved}
-                aria-pressed={savedOnly}
-                className={`flex shrink-0 cursor-pointer items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-colors ${savedOnly ? 'bg-teal text-white' : 'bg-white'}`}
-              >
-                <Heart className={`h-4 w-4 ${savedOnly ? 'fill-white' : ''}`} /> Saved {wishlist.length > 0 && `(${wishlist.length})`}
-              </button>
+              <div className="flex w-full flex-1 items-center justify-between gap-2 sm:w-auto sm:flex-none sm:justify-start">
+                <select value={sort} onChange={(e) => setSort(e.target.value as keyof typeof SORTS)} className="flex-1 cursor-pointer rounded-full bg-white px-4 py-2.5 text-sm outline-none sm:flex-none" aria-label="Sort">
+                  {Object.entries(SORTS).map(([k, v]) => (
+                    <option key={k} value={k}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={toggleSaved}
+                  aria-pressed={savedOnly}
+                  className={`flex shrink-0 cursor-pointer items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-colors ${savedOnly ? 'bg-teal text-white' : 'bg-white'}`}
+                >
+                  <Heart className={`h-4 w-4 ${savedOnly ? 'fill-white' : ''}`} /> Saved {wishlist.length > 0 && `(${wishlist.length})`}
+                </button>
+              </div>
             </div>
           </div>
         </div>

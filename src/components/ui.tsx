@@ -362,9 +362,9 @@ export function useIsTouch() {
   return touch;
 }
 
-export function PageHeader({ eyebrow, title, intro, children }: { eyebrow: string; title: string; intro?: string; children?: React.ReactNode }) {
+export function PageHeader({ eyebrow, title, intro, children, className }: { eyebrow: string; title: string; intro?: string; children?: React.ReactNode; className?: string }) {
   return (
-    <header className="mx-auto max-w-[1440px] px-4 pb-12 pt-36 sm:px-8 md:pb-16 md:pt-44">
+    <header className={`mx-auto max-w-[1440px] px-4 pb-12 pt-36 sm:px-8 md:pb-16 md:pt-44 ${className ?? ''}`}>
       <Reveal>
         <Eyebrow className="mb-6">{eyebrow}</Eyebrow>
       </Reveal>

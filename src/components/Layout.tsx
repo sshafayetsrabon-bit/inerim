@@ -118,7 +118,8 @@ function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-paper px-5 pb-8 pt-32 sm:px-8"
+            data-lenis-prevent
+            className="fixed inset-0 z-40 flex flex-col justify-between overflow-y-auto bg-paper px-5 pb-8 pt-24 sm:px-8 sm:pt-32"
             initial={{ clipPath: 'inset(0 0 100% 0)' }}
             animate={{ clipPath: 'inset(0 0 0% 0)' }}
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
@@ -128,7 +129,7 @@ function Nav() {
               {[{ to: '/', label: 'Home' }, ...NAV, { to: '/about', label: 'About' }, { to: '/contact', label: 'Contact' }].map((n, i) => (
                 <div key={n.to} className="overflow-hidden border-b border-line">
                   <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.15 + i * 0.04 }}>
-                    <Link to={n.to} className="flex items-center justify-between py-3 text-3xl font-medium tracking-tight sm:text-4xl">
+                    <Link to={n.to} className="flex items-center justify-between py-2 sm:py-3 text-2xl font-medium tracking-tight sm:text-4xl">
                       {n.label}
                       <ArrowUpRight className="h-5 w-5 text-muted" />
                     </Link>
@@ -136,7 +137,7 @@ function Nav() {
                 </div>
               ))}
             </div>
-            <Link to="/contact" className="mt-8 rounded-full bg-ink py-4 text-center text-sm font-medium text-white">
+            <Link to="/contact" className="mt-8 shrink-0 rounded-full bg-ink py-4 text-center text-sm font-medium text-white">
               Book a consultation
             </Link>
           </motion.div>
