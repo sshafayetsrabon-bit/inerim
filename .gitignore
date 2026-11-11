@@ -15,7 +15,7 @@ coverage/
 .visualizer-preview/
 inerim docs/
 command git push.txt
-client_whatsapp_message.txt
+client_*.txt
 .claude/
 INERIM.jpeg
 __pycache__/
